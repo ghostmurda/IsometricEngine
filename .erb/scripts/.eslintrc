@@ -3,7 +3,6 @@
         "no-console": "off",
         "global-require": "off",
         "import/no-dynamic-require": "off",
-        "import/no-extraneous-dependencies": "off",
-        "semi": ["error", "always"]
+        "import/no-extraneous-dependencies": "off"
     }
 }

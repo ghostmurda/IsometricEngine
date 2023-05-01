@@ -1,6 +1,6 @@
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-import icon from '../../assets/icon.svg';
-import './App.css';
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
+import icon from '../../assets/icon.svg'
+import './App.css'
 
 function Hello() {
     return (
@@ -36,7 +36,7 @@ function Hello() {
                 </a>
             </div>
         </div>
-    );
+    )
 }
 
 export default function App() {
@@ -46,5 +46,5 @@ export default function App() {
                 <Route path="/" element={<Hello />} />
             </Routes>
         </Router>
-    );
+    )
 }

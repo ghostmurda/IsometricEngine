@@ -8,7 +8,7 @@ module.exports = {
         'import/extensions': 'off',
         'import/no-unresolved': 'off',
         'import/no-import-module-exports': 'off',
-        semi: ['error', 'always'],
+        semi: 'off',
     },
     parserOptions: {
         ecmaVersion: 2020,
@@ -32,4 +32,4 @@ module.exports = {
             '@typescript-eslint/parser': ['.ts', '.tsx'],
         },
     },
-};
+}
