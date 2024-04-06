@@ -69,7 +69,11 @@ export const TerrainChunk = ({
                 args={[size, size, size - 1, size - 1]}
                 ref={ref}
             />
-            <meshStandardMaterial attach="material" map={texturePlane} />
+            <meshLambertMaterial
+                map={texturePlane}
+                opacity={1}
+                lightMapIntensity={1}
+            />
         </mesh>
     )
 }

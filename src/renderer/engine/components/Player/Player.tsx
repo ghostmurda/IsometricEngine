@@ -4,6 +4,7 @@ import { Vector3, Mesh } from 'three'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { CameraIsometric } from '../Camera'
 import paladinModel from '../../../../../assets/models/knight.gltf'
+import { ShadowSprite } from '../ShadowSprite'
 
 interface IPlaterProps {
     currentClickPoint?: Vector3
@@ -113,6 +114,11 @@ export const Player = ({ currentClickPoint, setPlayerPos }: IPlaterProps) => {
             <ambientLight />
             <ambientLight />
             <CameraIsometric />
+            <ShadowSprite
+                x={currentPosition.x}
+                y={currentPosition.y + 1}
+                z={currentPosition.z}
+            />
         </mesh>
     )
 }

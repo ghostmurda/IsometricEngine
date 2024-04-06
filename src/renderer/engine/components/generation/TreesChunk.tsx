@@ -14,9 +14,9 @@ export const TreesChunk = ({ size = 50, count = 5 }: ITreesChunkProps) => {
                 return (
                     <Tree
                         key={i}
-                        x={randFloat(0, 2) * 10}
+                        x={randFloat(-2, 2) * 10}
                         y={1}
-                        z={randFloat(0, 2) * 10}
+                        z={randFloat(-2, 2) * 10}
                     />
                 )
             }),

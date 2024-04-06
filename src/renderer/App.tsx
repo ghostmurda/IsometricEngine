@@ -49,9 +49,9 @@ function GameEngine() {
             <directionalLight
                 castShadow
                 position={new Vector3(0, 10, 0)}
-                intensity={0.8}
+                intensity={1}
             />
-            <fogExp2 attach="fog" color="black" density={0.02} />
+            <fogExp2 attach="fog" color="black" density={0.01} />
             <Stats />
         </Canvas>
     )
