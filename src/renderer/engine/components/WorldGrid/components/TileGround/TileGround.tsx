@@ -5,11 +5,13 @@ import { ITileGroundProps, ITileTypes } from './TileGround.d'
 import grass0 from '../../../../../../../assets/tiles/ground/grass0.png'
 import grass1 from '../../../../../../../assets/tiles/ground/grass1.png'
 import brick0 from '../../../../../../../assets/tiles/ground/brick0.png'
+import castle0 from '../../../../../../../assets/tiles/ground/castleGround0.png'
 
 const tileTypes: ITileTypes = {
     0: grass0,
     1: grass1,
     2: brick0,
+    3: castle0,
 }
 
 const TILE_WIDTH = 1.42

@@ -18,7 +18,7 @@ interface ITerrainChunkProps {
 
 export const TerrainChunk = ({
     seed,
-    size,
+    size = 50,
     height,
     levels = 8,
     scale = 1,

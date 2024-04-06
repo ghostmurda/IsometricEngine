@@ -2,9 +2,11 @@
 import { useTexture } from '@react-three/drei'
 import { ITileWallProps, ITileTypes } from './TileWall.d'
 import brickWall1 from '../../../../../../../assets/tiles/walls/brickWall1.png'
+import castleWall1 from '../../../../../../../assets/tiles/walls/castleWall1.png'
 
 const tileTypes: ITileTypes = {
     5: brickWall1,
+    6: castleWall1,
 }
 
 const TILE_WIDTH = 1.4
