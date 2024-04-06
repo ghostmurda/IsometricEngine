@@ -10,6 +10,8 @@ module.exports = {
         'import/no-import-module-exports': 'off',
         'import/prefer-default-export': 'off',
         'react/function-component-definition': 'off',
+        'react/no-unknown-property': 'off',
+        'react/require-default-props': 'off'
         semi: 'off',
     },
     parserOptions: {

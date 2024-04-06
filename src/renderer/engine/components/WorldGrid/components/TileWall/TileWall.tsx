@@ -30,7 +30,7 @@ export const TileWall = ({ x, y, z, type }: ITileWallProps) => {
     return (
         <>
             <mesh position={[x, z, y]} visible={false}>
-                <boxBufferGeometry args={[1, 1, 1]} />
+                <boxGeometry args={[1, 1, 1]} />
             </mesh>
             <sprite
                 position={[x, calculatedZ, y]}

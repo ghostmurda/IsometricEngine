@@ -1,5 +1,6 @@
-/* eslint-disable consistent-return */
-/* eslint-disable react/no-unknown-property */
+import { randFloat } from 'three/src/math/MathUtils'
+import { Vector3 } from 'three'
+import { generateWorld } from 'renderer/engine/utils'
 import { IWorldMatrix, IWorldTileLevels } from './WorldGrid.d'
 import { TileGround, TileWall } from './components'
 
@@ -42,7 +43,7 @@ const worldLevel6: IWorldMatrix = {
 }
 
 const worldTileLevels: IWorldTileLevels = {
-    1: worldLevel1,
+    1: generateWorld() as unknown as IWorldMatrix,
     2: worldLevel2,
     3: worldLevel3,
     4: worldLevel4,
@@ -50,7 +51,11 @@ const worldTileLevels: IWorldTileLevels = {
     6: worldLevel6,
 }
 
-export const WorldGrid = () => {
+interface IWorldGridProps {
+    handleClickPosition: (newPos: Vector3) => void
+}
+
+export const WorldGrid = ({ handleClickPosition }: IWorldGridProps) => {
     const renderLevelTiles = (matrix: IWorldMatrix, z: string) => {
         const renderTiles = Object.keys(matrix).map((row: string) => {
             return matrix[row].map((tileType, col) => {
@@ -65,6 +70,8 @@ export const WorldGrid = () => {
                             y={Number(row)}
                             z={Number(z)}
                             type={tileType}
+                            key={tileType + col + row + z + randFloat(0, 1)}
+                            onClickCallback={handleClickPosition}
                         />
                     )
                 }
@@ -75,6 +82,7 @@ export const WorldGrid = () => {
                         y={Number(row)}
                         z={Number(z)}
                         type={tileType}
+                        key={tileType + col + row + z + randFloat(0, 1)}
                     />
                 )
             })

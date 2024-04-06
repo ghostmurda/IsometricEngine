@@ -20,14 +20,14 @@ export const CameraIsometric = () => {
                 // Limit zoom dimensions
                 if (
                     e.deltaY < 0 &&
-                    camera?.current &&
-                    camera.current.zoom <= aspect * 300
+                    camera?.current // &&
+                    // camera.current.zoom <= aspect * 300
                 )
                     setZoom(camera.current.zoom - (e.deltaY / 120) * 10)
                 if (
                     e.deltaY > 0 &&
-                    camera?.current &&
-                    camera.current.zoom >= aspect * 50
+                    camera?.current // &&
+                    // camera.current.zoom >= aspect * 50
                 )
                     setZoom(camera.current.zoom - (e.deltaY / 120) * 10)
             })
@@ -49,7 +49,7 @@ export const CameraIsometric = () => {
             ref={camera}
             zoom={zoom}
             near={0.1}
-            far={500}
+            far={2000}
             rotation={[Math.atan(-1 / Math.sqrt(2)), -Math.PI / 4, 0]}
         />
     )

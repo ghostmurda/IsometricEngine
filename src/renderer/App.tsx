@@ -1,20 +1,42 @@
-/* eslint-disable react/no-unknown-property */
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
-// import icon from '../../assets/icon.svg'
 import './App.css'
 import { Canvas } from '@react-three/fiber'
-import { CameraIsometric, WorldGrid } from './engine'
+import { Stats } from '@react-three/drei'
+import { useState } from 'react'
+import { Vector3 } from 'three'
+import { Player, WorldGrid } from './engine'
+import { PlaneGround } from './engine/components/PlaneGround'
+import { TerrainChunk } from './engine/components/generation'
 
 function GameEngine() {
+    const [currentClickPoint, setCurrentClickPoint] = useState<Vector3>()
+
+    const handleClickPosition = (_newPos: Vector3) => {
+        const newPos = new Vector3(
+            +_newPos.x.toFixed(10),
+            +_newPos.y.toFixed(10),
+            +_newPos.z.toFixed(10)
+        )
+        setCurrentClickPoint(newPos)
+    }
+
+    const worldSeed = new Date().getUTCMinutes()
+
     return (
-        <Canvas>
-            <ambientLight />
-            <WorldGrid />
-            <CameraIsometric />
-            {/* <mesh position={[0, 1, 0]}>
-                <boxBufferGeometry args={[1, 1, 1]} />
-                <meshNormalMaterial />
-            </mesh> */}
+        <Canvas shadows>
+            <Player currentClickPoint={currentClickPoint} />
+            <WorldGrid handleClickPosition={handleClickPosition} />
+            {/* <PlaneGround handleClickPosition={handleClickPosition} /> */}
+            <TerrainChunk
+                seed={worldSeed}
+                size={50}
+                height={0.2}
+                levels={8}
+                scale={1}
+            />
+            <directionalLight castShadow position={new Vector3(0, 10, 0)} />
+            <fogExp2 attach="fog" color="black" density={0.02} />
+            <Stats />
         </Canvas>
     )
 }
