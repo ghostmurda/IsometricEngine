@@ -1,11 +1,6 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-unknown-property */
-
 import { useFrame } from '@react-three/fiber'
 import { useEffect, useRef, useState } from 'react'
-import { Vector3, Mesh } from 'three'
+import { Vector3, Mesh, Object3D, Quaternion } from 'three'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { CameraIsometric } from '../Camera'
 import paladinModel from '../../../../../assets/models/knight.gltf'
@@ -81,23 +76,12 @@ export const Player = ({ currentClickPoint }: IPlaterProps) => {
                 const newY = +currentPosition.y.toFixed(10)
                 const newPosition = new Vector3(newX, newY, newZ)
 
-                const rotationVector = new Vector3(
+                const lookAtVector = new Vector3(
                     currentClickPoint.x,
-                    currentClickPoint.y,
+                    currentPosition.y + 1,
                     currentClickPoint.z
                 )
-                rotationVector.add(currentPosition)
-                playerModelRef.current?.lookAt(rotationVector)
-
-                // const angle = new Vector3(
-                //     currentPosition.x,
-                //     0,
-                //     currentPosition.z
-                // ).angleTo(
-                //     new Vector3(currentClickPoint.x, 0, currentClickPoint.z)
-                // )
-
-                // playerModelRef.current.rotation.y = angle * (180 / Math.PI)
+                playerModelRef.current.lookAt(lookAtVector)
 
                 playerRef.current?.position.lerp(
                     newPosition,

@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef } from 'react'
-import { BufferAttribute, PlaneGeometry, TextureLoader, Wrapping } from 'three'
+import { BufferAttribute, PlaneGeometry, TextureLoader, Vector3 } from 'three'
 import { createNoise2D } from 'simplex-noise'
 import alea from 'alea'
-import { useLoader } from '@react-three/fiber'
+import { ThreeEvent, useLoader } from '@react-three/fiber'
 import generateTerrain from './utils/generateTerrain'
 import grassTexture from '../../../../../assets/textures/grass1.png'
 
@@ -13,6 +13,7 @@ interface ITerrainChunkProps {
     levels: number
     scale: number
     offset?: { x: number; z: number }
+    handleClickPosition: (newPos: Vector3) => void
 }
 
 export const TerrainChunk = ({
@@ -22,13 +23,14 @@ export const TerrainChunk = ({
     levels = 8,
     scale = 1,
     offset = { x: 0, z: 0 },
+    handleClickPosition,
 }: ITerrainChunkProps) => {
     const simplex = createNoise2D(alea(seed))
     const ref = useRef<PlaneGeometry>(null)
     const texturePlane = useLoader(TextureLoader, grassTexture)
-    texturePlane.wrapS = 8 as Wrapping
-    texturePlane.wrapT = 8 as Wrapping
-    texturePlane.repeat.set(8, 8)
+    // texturePlane.wrapS = 8 as Wrapping
+    // texturePlane.wrapT = 8 as Wrapping
+    texturePlane.repeat.set(16, 16)
 
     useLayoutEffect(() => {
         if (ref.current) {
@@ -51,8 +53,17 @@ export const TerrainChunk = ({
         }
     }, [size, height, levels, scale, offset, simplex])
 
+    const handleClick = (e: ThreeEvent<MouseEvent>) => {
+        handleClickPosition(e.point)
+    }
+
     return (
-        <mesh scale={[20, 5, 20]} receiveShadow castShadow>
+        <mesh
+            scale={[size, 5, size]}
+            onClick={(e) => handleClick(e)}
+            receiveShadow
+            castShadow
+        >
             <planeGeometry
                 attach="geometry"
                 args={[size, size, size - 1, size - 1]}

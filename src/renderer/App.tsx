@@ -5,7 +5,6 @@ import { Stats } from '@react-three/drei'
 import { useState } from 'react'
 import { Vector3 } from 'three'
 import { Player, WorldGrid } from './engine'
-import { PlaneGround } from './engine/components/PlaneGround'
 import { TerrainChunk } from './engine/components/generation'
 
 function GameEngine() {
@@ -26,15 +25,19 @@ function GameEngine() {
         <Canvas shadows>
             <Player currentClickPoint={currentClickPoint} />
             <WorldGrid handleClickPosition={handleClickPosition} />
-            {/* <PlaneGround handleClickPosition={handleClickPosition} /> */}
             <TerrainChunk
                 seed={worldSeed}
                 size={50}
                 height={0.2}
                 levels={8}
                 scale={1}
+                handleClickPosition={handleClickPosition}
             />
-            <directionalLight castShadow position={new Vector3(0, 10, 0)} />
+            <directionalLight
+                castShadow
+                position={new Vector3(0, 10, 0)}
+                intensity={0.8}
+            />
             <fogExp2 attach="fog" color="black" density={0.02} />
             <Stats />
         </Canvas>
