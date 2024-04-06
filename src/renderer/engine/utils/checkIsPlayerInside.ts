@@ -4,7 +4,7 @@ interface Props {
     playerPos?: Vector3
     dMax?: number
     dMin?: number
-    isPatternInside?: boolean
+    isPatternChanging?: boolean
     x: number
     z: number
     setInsideCb: () => void
@@ -15,12 +15,15 @@ export const checkIsPlayerInside = ({
     playerPos,
     dMax = 10,
     dMin = 1,
-    isPatternInside,
+    isPatternChanging,
     x,
     z,
     setInsideCb,
     setOutsideCb,
 }: Props) => {
+    if (isPatternChanging) {
+        return
+    }
     const dX = +(playerPos?.x?.toFixed(10) || 0) - x
     const dZ = +(playerPos?.z?.toFixed(10) || 0) - z
 
@@ -28,11 +31,12 @@ export const checkIsPlayerInside = ({
 
     const isOutside = dX > dMax || dX < -dMax || dZ > dMax || dZ < -dMax
 
-    if (isInside && !isOutside && !isPatternInside) {
+    if (isInside && !isOutside) {
         setInsideCb?.()
+        return
     }
 
-    if (isOutside && isInside && isPatternInside) {
+    if (isOutside) {
         setOutsideCb?.()
     }
 }

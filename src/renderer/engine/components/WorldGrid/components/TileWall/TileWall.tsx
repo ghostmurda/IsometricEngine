@@ -23,7 +23,7 @@ export const TileWall = ({
     z,
     type,
     playerPos: _playerPos,
-    isPatternInside,
+    isPatternChanging,
     setInsideCb,
     setOutsideCb,
 }: ITileWallProps) => {
@@ -44,7 +44,7 @@ export const TileWall = ({
             playerPos,
             x,
             z,
-            isPatternInside,
+            isPatternChanging,
             setInsideCb,
             setOutsideCb,
         })

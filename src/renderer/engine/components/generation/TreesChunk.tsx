@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Tree } from '../Tree'
+import { randFloat } from 'three/src/math/MathUtils'
 
 interface ITreesChunkProps {
     size?: number
@@ -10,18 +11,12 @@ export const TreesChunk = ({ size = 50, count = 5 }: ITreesChunkProps) => {
     const renderTrees = useMemo(
         () =>
             [...new Array(count)].map((_, i) => {
-                console.log('tree coords', i, [
-                    (new Date().getUTCDate() * size * i) / 100,
-                    1,
-                    (new Date().getUTCDate() * size * i) / 100,
-                ])
-
                 return (
                     <Tree
                         key={i}
-                        x={(new Date().getUTCDate() * size * i) / 100}
+                        x={randFloat(0, 2) * 10}
                         y={1}
-                        z={(new Date().getUTCDate() * size * i) / 100}
+                        z={randFloat(0, 2) * 10}
                     />
                 )
             }),

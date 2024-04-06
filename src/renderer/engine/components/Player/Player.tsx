@@ -7,12 +7,13 @@ import paladinModel from '../../../../../assets/models/knight.gltf'
 
 interface IPlaterProps {
     currentClickPoint?: Vector3
+    setPlayerPos: React.Dispatch<React.SetStateAction<Vector3 | undefined>>
 }
 
 const LERP_DIFFERENCE_ERROR = 0.1
 const SPEED = 350
 
-export const Player = ({ currentClickPoint }: IPlaterProps) => {
+export const Player = ({ currentClickPoint, setPlayerPos }: IPlaterProps) => {
     const playerModel = useGLTF(
         paladinModel,
         'https://www.gstatic.com/draco/versioned/decoders/1.4.0/'
@@ -75,6 +76,8 @@ export const Player = ({ currentClickPoint }: IPlaterProps) => {
                 const newZ = +(currentPosition.z + k * dZ).toFixed(10)
                 const newY = +currentPosition.y.toFixed(10)
                 const newPosition = new Vector3(newX, newY, newZ)
+
+                setPlayerPos(newPosition)
 
                 const lookAtVector = new Vector3(
                     currentClickPoint.x,

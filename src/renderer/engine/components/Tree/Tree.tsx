@@ -1,5 +1,5 @@
 import { useFBX } from '@react-three/drei'
-import treeModel from '../../../../../assets/models/tree1/source/tree3.fbx'
+import treeModel from '@assets/models/tree1/source/tree3.fbx'
 
 interface ITreeProps {
     x: number

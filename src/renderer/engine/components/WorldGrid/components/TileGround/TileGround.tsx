@@ -27,7 +27,7 @@ export const TileGround = ({
     z,
     type,
     playerPos: _playerPos,
-    isPatternInside,
+    isPatternChanging,
     onClickCallback,
     setInsideCb,
     setOutsideCb,
@@ -50,7 +50,7 @@ export const TileGround = ({
             playerPos,
             x,
             z,
-            isPatternInside,
+            isPatternChanging,
             setInsideCb,
             setOutsideCb,
         })

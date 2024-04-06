@@ -10,7 +10,7 @@ export interface ITileGroundProps {
     setInsideCb: () => void
     setOutsideCb: () => void
     playerPos?: Vector3
-    isPatternInside?: boolean
+    isPatternChanging?: boolean
 }
 
 export interface ITileTypes {

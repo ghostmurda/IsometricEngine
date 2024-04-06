@@ -10,6 +10,7 @@ import { TerrainChunk, TreesChunk } from './engine/components/generation'
 function GameEngine() {
     const [currentClickPoint, setCurrentClickPoint] = useState<Vector3>()
     const [worldSeed, setWorldSeed] = useState<number>()
+    const [playerPos, setPlayerPos] = useState<Vector3>()
 
     const handleClickPosition = (_newPos: Vector3) => {
         const newPos = new Vector3(
@@ -24,14 +25,15 @@ function GameEngine() {
         setWorldSeed(new Date().getUTCMinutes())
     }, [])
 
-    console.log('currentClickPoint', currentClickPoint)
-
     return (
         <Canvas shadows>
-            <Player currentClickPoint={currentClickPoint} />
+            <Player
+                currentClickPoint={currentClickPoint}
+                setPlayerPos={setPlayerPos}
+            />
             <WorldGrid
                 handleClickPosition={handleClickPosition}
-                playerPos={currentClickPoint}
+                playerPos={playerPos}
             />
             {worldSeed && (
                 <TerrainChunk

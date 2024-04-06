@@ -8,7 +8,7 @@ export interface ITileWallProps {
     setInsideCb: () => void
     setOutsideCb: () => void
     playerPos?: Vector3
-    isPatternInside?: boolean
+    isPatternChanging?: boolean
 }
 
 export interface ITileTypes {

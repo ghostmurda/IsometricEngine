@@ -4,8 +4,7 @@ import { IWorldMatrix } from './WorldGrid.d'
 import { TileGround, TileWall } from './components'
 import housePattern from '@utils/generation/patterns/houseSmall.json'
 import housePatternInside from '@utils/generation/patterns/houseSmallInside.json'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { checkIsPlayerInside } from '@utils/checkIsPlayerInside'
+import { useEffect, useMemo, useState } from 'react'
 
 interface IWorldGridProps {
     handleClickPosition: (newPos: Vector3) => void
@@ -17,76 +16,70 @@ export const WorldGrid = ({
     playerPos,
 }: IWorldGridProps) => {
     const [pattern, setPattern] = useState(housePattern)
-    const [isPatternInside, setIsPatternIndide] = useState(false)
+    const [isPatternChanging, setIsPatternChanging] = useState(false)
 
     const handleSetPatternInside = () => {
-        setPattern(housePatternInside)
-        setIsPatternIndide(true)
+        setPattern(housePatternInside as typeof housePattern)
+        setIsPatternChanging(true)
     }
 
     const handleSetPatternOutside = () => {
         setPattern(housePattern)
-        setIsPatternIndide(false)
+        setIsPatternChanging(true)
     }
 
-    const renderLevelTiles = useCallback(
-        (matrix: IWorldMatrix, z: string) => {
-            const renderTiles = Object.keys(matrix).map((row: string) => {
-                return matrix[row].map((tileType, col) => {
-                    if (tileType === -1) {
-                        return
-                    }
+    useEffect(() => {
+        if (isPatternChanging) {
+            const reset = setTimeout(() => {
+                setIsPatternChanging(false)
+            }, 500)
 
-                    if (col === 1 && +z === 1) {
-                        const dX = +(playerPos?.x?.toFixed(10) || 0) - col
-                        const dZ = +(playerPos?.z?.toFixed(10) || 0) - +z
-                        const dMax = 10
+            return () => clearTimeout(reset)
+        }
+    }, [isPatternChanging])
 
-                        const isOutside =
-                            dX > dMax || dX < -dMax || dZ > dMax || dZ < -dMax
+    const renderLevelTiles = (matrix: IWorldMatrix, z: string) => {
+        const renderTiles = Object.keys(matrix).map((row: string) => {
+            return matrix[row].map((tileType, col) => {
+                if (tileType === -1) {
+                    return
+                }
 
-                        if (isOutside && isPatternInside) {
-                            handleSetPatternOutside()
-                        }
-                    }
-
-                    if (tileType < 5) {
-                        return (
-                            <TileGround
-                                x={col}
-                                y={+row}
-                                z={+z}
-                                type={tileType}
-                                key={tileType + col + row + z + randFloat(0, 1)}
-                                onClickCallback={handleClickPosition}
-                                playerPos={playerPos}
-                                setInsideCb={handleSetPatternInside}
-                                setOutsideCb={handleSetPatternOutside}
-                                isPatternInside={isPatternInside}
-                            />
-                        )
-                    }
-
+                if (tileType < 5) {
                     return (
-                        <TileWall
+                        <TileGround
                             x={col}
                             y={+row}
                             z={+z}
                             type={tileType}
                             key={tileType + col + row + z + randFloat(0, 1)}
+                            onClickCallback={handleClickPosition}
                             playerPos={playerPos}
                             setInsideCb={handleSetPatternInside}
                             setOutsideCb={handleSetPatternOutside}
-                            isPatternInside={isPatternInside}
+                            isPatternChanging={isPatternChanging}
                         />
                     )
-                })
-            })
+                }
 
-            return renderTiles
-        },
-        [playerPos, isPatternInside]
-    )
+                return (
+                    <TileWall
+                        x={col}
+                        y={+row}
+                        z={+z}
+                        type={tileType}
+                        key={tileType + col + row + z + randFloat(0, 1)}
+                        playerPos={playerPos}
+                        setInsideCb={handleSetPatternInside}
+                        setOutsideCb={handleSetPatternOutside}
+                        isPatternChanging={isPatternChanging}
+                    />
+                )
+            })
+        })
+
+        return renderTiles
+    }
 
     const renderAllLevels = useMemo(
         () =>
@@ -97,7 +90,7 @@ export const WorldGrid = ({
                     level
                 )
             }),
-        [playerPos, pattern, isPatternInside]
+        [playerPos, pattern, isPatternChanging]
     )
 
     return (
