@@ -1,33 +1,60 @@
 /* eslint-disable react/no-unknown-property */
 import { useTexture } from '@react-three/drei'
 import { ITileWallProps, ITileTypes } from './TileWall.d'
-import brickWall1 from '../../../../../../../assets/tiles/walls/brickWall1.png'
-import castleWall1 from '../../../../../../../assets/tiles/walls/castleWall1.png'
+import brickWall1 from '@assets/tiles/walls/brickWall1.png'
+import castleWall1 from '@assets/tiles/walls/castleWall1.png'
+import {
+    TILE_WALL_HEIGHT,
+    TILE_WALL_WIDTH,
+    TILE_WALL_Z_HEIGHT,
+} from '@utils/constants'
+import { useCallback, useEffect, useMemo } from 'react'
+import { Vector3 } from 'three'
+import { checkIsPlayerInside } from '@utils/checkIsPlayerInside'
 
 const tileTypes: ITileTypes = {
     5: brickWall1,
     6: castleWall1,
 }
 
-const TILE_WIDTH = 1.4
-const TILE_HEIGHT = 1.24
-const TILE_Z_HEIGHT = 0.73
-
-export const TileWall = ({ x, y, z, type }: ITileWallProps) => {
+export const TileWall = ({
+    x,
+    y,
+    z,
+    type,
+    playerPos: _playerPos,
+    isPatternInside,
+    setInsideCb,
+    setOutsideCb,
+}: ITileWallProps) => {
     const texture = useTexture(tileTypes[type])
-    const calculatedZ = z === 1 ? TILE_Z_HEIGHT : z - 1 + TILE_Z_HEIGHT
-    // const calculatedZ = (() => {
-    //     if (z === 1) {
-    //         return z * TILE_Z_HEIGHT
-    //     }
+    const calculatedZ =
+        z === 1 ? TILE_WALL_Z_HEIGHT : z - 1 + TILE_WALL_Z_HEIGHT
 
-    //     if (z === 2) {
-    //         return z * TILE_Z_HEIGHT + 0.28
-    //     }
+    const playerPos = useMemo(() => {
+        if (!_playerPos?.x) {
+            return
+        }
 
-    //     return z * TILE_Z_HEIGHT + (0.5 * z - 2.18)
-    // })()
-    // const calculatedZ = z === 1 ? z * TILE_Z_HEIGHT : z * TILE_Z_HEIGHT + 0.28
+        return new Vector3(_playerPos?.x, _playerPos?.y, _playerPos?.z)
+    }, [_playerPos?.x, _playerPos?.y, _playerPos?.z])
+
+    const checkDistanceToPlayer = useCallback(() => {
+        checkIsPlayerInside({
+            playerPos,
+            x,
+            z,
+            isPatternInside,
+            setInsideCb,
+            setOutsideCb,
+        })
+    }, [playerPos])
+
+    useEffect(() => {
+        if (playerPos) {
+            checkDistanceToPlayer()
+        }
+    }, [playerPos])
 
     return (
         <>
@@ -36,7 +63,7 @@ export const TileWall = ({ x, y, z, type }: ITileWallProps) => {
             </mesh>
             <sprite
                 position={[x, calculatedZ, y]}
-                scale={[TILE_WIDTH, TILE_HEIGHT, TILE_WIDTH]}
+                scale={[TILE_WALL_WIDTH, TILE_WALL_HEIGHT, TILE_WALL_WIDTH]}
             >
                 <spriteMaterial map={texture} />
             </sprite>

@@ -7,7 +7,12 @@
     "jsx": "react-jsx",
     "strict": true,
     "sourceMap": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
+    "paths": {
+        "@engine/components/*": ["src/renderer/engine/components/*"],
+        "@assets/*": ["assets/*"],
+        "@utils/*": ["src/renderer/engine/utils/*"]
+    },
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

@@ -7,6 +7,10 @@ export interface ITileGroundProps {
     z: number
     type: number
     onClickCallback: (newPos: Vector3) => void
+    setInsideCb: () => void
+    setOutsideCb: () => void
+    playerPos?: Vector3
+    isPatternInside?: boolean
 }
 
 export interface ITileTypes {
