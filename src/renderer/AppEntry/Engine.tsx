@@ -7,8 +7,7 @@ import { AppContext } from '../context/AppContext/AppContext'
 
 export const Engine = () => {
     //@ts-ignore
-    const { setClickPos, worldSeed, playerPos, setPlayerPos, clickPos } =
-        useContext(AppContext)
+    const { setClickPos, worldSeed } = useContext(AppContext)
 
     const handleClickPos = (_newPos: Vector3) => {
         const newPos = new Vector3(
@@ -21,7 +20,7 @@ export const Engine = () => {
 
     return (
         <>
-            <Player currentClickPoint={clickPos} setPlayerPos={setPlayerPos} />
+            <Player />
             <WorldGrid handleClickPosition={handleClickPos} />
             {worldSeed && (
                 <TerrainChunk
