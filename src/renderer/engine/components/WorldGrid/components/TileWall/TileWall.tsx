@@ -7,10 +7,11 @@ import {
     TILE_WALL_HEIGHT,
     TILE_WALL_WIDTH,
     TILE_WALL_Z_HEIGHT,
-} from '@utils/constants'
-import { useCallback, useEffect, useMemo } from 'react'
+} from '@engine/utils/constants'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
 import { Vector3 } from 'three'
-import { checkIsPlayerInside } from '@utils/checkIsPlayerInside'
+import { checkIsPlayerInside } from '@engine/utils/checkIsPlayerInside'
+import { AppContext } from '@context/AppContext'
 
 const tileTypes: ITileTypes = {
     5: brickWall1,
@@ -22,11 +23,11 @@ export const TileWall = ({
     y,
     z,
     type,
-    playerPos: _playerPos,
     isPatternChanging,
     setInsideCb,
     setOutsideCb,
 }: ITileWallProps) => {
+    const { playerPos: _playerPos } = useContext(AppContext)
     const texture = useTexture(tileTypes[type])
     const calculatedZ =
         z === 1 ? TILE_WALL_Z_HEIGHT : z - 1 + TILE_WALL_Z_HEIGHT

@@ -9,7 +9,6 @@ export interface ITileGroundProps {
     onClickCallback: (newPos: Vector3) => void
     setInsideCb: () => void
     setOutsideCb: () => void
-    playerPos?: Vector3
     isPatternChanging?: boolean
 }
 

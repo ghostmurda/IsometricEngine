@@ -11,7 +11,8 @@
     "paths": {
         "@engine/components/*": ["src/renderer/engine/components/*"],
         "@assets/*": ["assets/*"],
-        "@utils/*": ["src/renderer/engine/utils/*"]
+        "@engine/utils/*": ["src/renderer/engine/utils/*"],
+        "@context/*": ["src/renderer/context/*"]
     },
     "moduleResolution": "node",
     "esModuleInterop": true,

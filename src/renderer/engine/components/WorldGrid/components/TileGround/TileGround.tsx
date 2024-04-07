@@ -10,9 +10,10 @@ import {
     TILE_GROUND_HEIGHT,
     TILE_GROUND_WIDTH,
     TILE_GROUND_Z_HEIGHT,
-} from '@utils/constants'
-import { useCallback, useEffect, useMemo } from 'react'
-import { checkIsPlayerInside } from '@utils/checkIsPlayerInside'
+} from '@engine/utils/constants'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
+import { checkIsPlayerInside } from '@engine/utils/checkIsPlayerInside'
+import { AppContext } from '@context/AppContext'
 
 const tileTypes: ITileTypes = {
     0: grass0,
@@ -26,12 +27,12 @@ export const TileGround = ({
     y,
     z,
     type,
-    playerPos: _playerPos,
     isPatternChanging,
     onClickCallback,
     setInsideCb,
     setOutsideCb,
 }: ITileGroundProps) => {
+    const { playerPos: _playerPos } = useContext(AppContext)
     const texture = useTexture(tileTypes[type])
     const calculatedZ =
         z === 1 ? TILE_GROUND_Z_HEIGHT : z - 1 + TILE_GROUND_Z_HEIGHT

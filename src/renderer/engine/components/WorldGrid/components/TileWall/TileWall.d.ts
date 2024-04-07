@@ -7,7 +7,6 @@ export interface ITileWallProps {
     type: number
     setInsideCb: () => void
     setOutsideCb: () => void
-    playerPos?: Vector3
     isPatternChanging?: boolean
 }
 

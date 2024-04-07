@@ -2,19 +2,15 @@ import { randFloat } from 'three/src/math/MathUtils'
 import { Vector3 } from 'three'
 import { IWorldMatrix } from './WorldGrid.d'
 import { TileGround, TileWall } from './components'
-import housePattern from '@utils/generation/patterns/houseSmall.json'
-import housePatternInside from '@utils/generation/patterns/houseSmallInside.json'
+import housePattern from '@engine/utils/generation/patterns/houseSmall.json'
+import housePatternInside from '@engine/utils/generation/patterns/houseSmallInside.json'
 import { useEffect, useMemo, useState } from 'react'
 
 interface IWorldGridProps {
     handleClickPosition: (newPos: Vector3) => void
-    playerPos?: Vector3
 }
 
-export const WorldGrid = ({
-    handleClickPosition,
-    playerPos,
-}: IWorldGridProps) => {
+export const WorldGrid = ({ handleClickPosition }: IWorldGridProps) => {
     const [pattern, setPattern] = useState(housePattern)
     const [isPatternChanging, setIsPatternChanging] = useState(false)
 
@@ -54,7 +50,6 @@ export const WorldGrid = ({
                             type={tileType}
                             key={tileType + col + row + z + randFloat(0, 1)}
                             onClickCallback={handleClickPosition}
-                            playerPos={playerPos}
                             setInsideCb={handleSetPatternInside}
                             setOutsideCb={handleSetPatternOutside}
                             isPatternChanging={isPatternChanging}
@@ -69,7 +64,6 @@ export const WorldGrid = ({
                         z={+z}
                         type={tileType}
                         key={tileType + col + row + z + randFloat(0, 1)}
-                        playerPos={playerPos}
                         setInsideCb={handleSetPatternInside}
                         setOutsideCb={handleSetPatternOutside}
                         isPatternChanging={isPatternChanging}
@@ -90,7 +84,7 @@ export const WorldGrid = ({
                     level
                 )
             }),
-        [playerPos, pattern, isPatternChanging]
+        [pattern, isPatternChanging]
     )
 
     return (

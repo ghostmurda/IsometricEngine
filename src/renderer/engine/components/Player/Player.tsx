@@ -1,20 +1,17 @@
 import { useFrame } from '@react-three/fiber'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Vector3, Mesh } from 'three'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { CameraIsometric } from '../Camera'
 import paladinModel from '../../../../../assets/models/knight.gltf'
 import { ShadowSprite } from '../ShadowSprite'
-
-interface IPlaterProps {
-    currentClickPoint?: Vector3
-    setPlayerPos: React.Dispatch<React.SetStateAction<Vector3 | undefined>>
-}
+import { AppContext } from '@context/AppContext'
 
 const LERP_DIFFERENCE_ERROR = 0.1
 const SPEED = 350
 
-export const Player = ({ currentClickPoint, setPlayerPos }: IPlaterProps) => {
+export const Player = () => {
+    const { setPlayerPos, clickPos } = useContext(AppContext)
     const playerModel = useGLTF(
         paladinModel,
         'https://www.gstatic.com/draco/versioned/decoders/1.4.0/'
@@ -52,9 +49,9 @@ export const Player = ({ currentClickPoint, setPlayerPos }: IPlaterProps) => {
 
     // Movement to click point
     useFrame((_, delta) => {
-        if (currentClickPoint && playerRef.current && playerModelRef.current) {
-            const dX = currentClickPoint?.x - +currentPosition?.x?.toFixed(10)
-            const dZ = currentClickPoint?.z - +currentPosition?.z?.toFixed(10)
+        if (clickPos && playerRef.current && playerModelRef.current) {
+            const dX = clickPos?.x - +currentPosition?.x?.toFixed(10)
+            const dZ = clickPos?.z - +currentPosition?.z?.toFixed(10)
 
             if (
                 dX > LERP_DIFFERENCE_ERROR ||
@@ -81,9 +78,9 @@ export const Player = ({ currentClickPoint, setPlayerPos }: IPlaterProps) => {
                 setPlayerPos(newPosition)
 
                 const lookAtVector = new Vector3(
-                    currentClickPoint.x,
+                    clickPos.x,
                     currentPosition.y + 1,
-                    currentClickPoint.z
+                    clickPos.z
                 )
                 playerModelRef.current.lookAt(lookAtVector)
 
