@@ -58,8 +58,9 @@ export const TileWall = ({
 
     return (
         <>
-            <mesh position={[x, z, y]} visible={false}>
+            <mesh position={[x, z, y]} visible={false} receiveShadow castShadow>
                 <boxGeometry args={[1, 1, 1]} />
+                <meshStandardMaterial map={texture} />
             </mesh>
             <sprite
                 position={[x, calculatedZ, y]}
