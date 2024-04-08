@@ -15,15 +15,17 @@ export const Tree = ({ x, y, z }: ITreeProps) => {
     const texture = useTexture(treeTexture)
 
     return (
-        <mesh
-            scale={[0.005, 0.005, 0.005]}
-            position={[x, y, z]}
-            receiveShadow
-            castShadow
-        >
-            <primitive object={tree3dObj.clone()} />
-            <meshStandardMaterial map={texture.clone()} />
-            <ShadowSprite x={x} y={y} z={z} scale={new Vector3(4, 2, 4)} />
-        </mesh>
+        <>
+            <mesh
+                scale={[0.005, 0.005, 0.005]}
+                position={[x, y, z]}
+                receiveShadow
+                castShadow
+            >
+                <primitive object={tree3dObj.clone()} />
+                <meshStandardMaterial map={texture.clone()} />
+                <ShadowSprite x={x} y={y} z={z} scale={new Vector3(4, 2, 4)} />
+            </mesh>
+        </>
     )
 }

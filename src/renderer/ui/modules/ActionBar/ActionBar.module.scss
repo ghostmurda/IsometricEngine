@@ -1,0 +1,23 @@
+.container {
+    margin-bottom: 64px;
+    padding: 16px;
+    //background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    width: 64px;
+    height: 64px;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: 0.3ms;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+        border-color: gray;
+    }
+}

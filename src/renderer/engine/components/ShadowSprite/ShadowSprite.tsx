@@ -18,8 +18,10 @@ export const ShadowSprite = ({ x, y, z, scale }: IShadowSpriteProps) => {
         .multiply(new Vector3(0, 1, 0))
 
     return (
-        <sprite position={pos} scale={scale || [2, 1, 2]}>
-            <spriteMaterial map={texture.clone()} />
-        </sprite>
+        <mesh position={pos} scale={scale || [2, 1, 2]}>
+            <sprite>
+                <spriteMaterial map={texture.clone()} />
+            </sprite>
+        </mesh>
     )
 }

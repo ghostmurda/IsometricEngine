@@ -107,14 +107,14 @@ export const Player = () => {
     }
 
     return (
-        <mesh position={[0, 0.7, 0]} ref={playerRef}>
+        <mesh position={[0, 0.7, 0]} ref={playerRef} receiveShadow castShadow>
             <primitive
                 object={(playerModel as any)?.scene}
                 ref={playerModelRef}
                 scale={[0.01, 0.01, 0.01]}
                 position={[0, 1, 0]}
             />
-            <pointLight intensity={0.6} position={ponterLightPos} />
+            {/* <pointLight intensity={0.6} position={ponterLightPos} /> */}
             <CameraIsometric />
             <ShadowSprite
                 x={currentPosition.x}

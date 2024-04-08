@@ -11,14 +11,11 @@ export const TreesChunk = ({ size = 50, count = 5 }: ITreesChunkProps) => {
     const renderTrees = useMemo(
         () =>
             [...new Array(count)].map((_, i) => {
-                return (
-                    <Tree
-                        key={i}
-                        x={randFloat(-2, 2) * 10}
-                        y={1}
-                        z={randFloat(-2, 2) * 10}
-                    />
-                )
+                const x = randFloat(-size, size)
+                const z = randFloat(-size, size)
+                const y = 1
+
+                return <Tree key={i} x={x} y={y} z={z} />
             }),
         [size, count]
     )

@@ -26,19 +26,19 @@ export const Engine = () => {
                 <TerrainChunk
                     seed={worldSeed}
                     size={50}
-                    height={0.2}
-                    levels={8}
+                    height={0.6}
+                    levels={12}
                     scale={1}
                     handleClickPosition={handleClickPos}
                 />
             )}
-            <TreesChunk />
-            <directionalLight
+            <TreesChunk count={50} />
+            {/* <directionalLight
                 castShadow
                 position={new Vector3(0, 10, 0)}
-                intensity={1}
-            />
-            <fogExp2 attach="fog" color="black" density={0.01} />
+                intensity={0.8}
+            /> */}
+            <fogExp2 attach="fog" color="black" density={0.03} />
         </>
     )
 }

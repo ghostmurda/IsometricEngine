@@ -4,15 +4,20 @@ import { Canvas } from '@react-three/fiber'
 import { Stats } from '@react-three/drei'
 import { Engine } from './Engine'
 import { AppContextProvider } from '@context/AppContext'
+import { UiMain } from '../ui/UiMain'
+import styles from './App.module.scss'
 
 function GameEngine() {
     return (
-        <Canvas shadows>
+        <div className={styles.appContainer}>
             <AppContextProvider>
-                <Engine />
+                <Canvas shadows>
+                    <Engine />
+                    <Stats />
+                </Canvas>
+                <UiMain />
             </AppContextProvider>
-            <Stats />
-        </Canvas>
+        </div>
     )
 }
 
