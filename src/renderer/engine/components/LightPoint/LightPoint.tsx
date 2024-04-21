@@ -5,6 +5,7 @@ interface ILightPointProps {
     pos: Vector3
 }
 
+// TODO make static lightmap with light points
 export const LightPoint = React.memo(({ pos }: ILightPointProps) => {
     return (
         <mesh position={pos}>
