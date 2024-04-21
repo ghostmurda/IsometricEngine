@@ -1,7 +1,7 @@
 import { Player } from '@engine/components/Player'
 import { PatternGrid, TerrainGrid } from '@engine/components/WorldGrid'
 import { TerrainChunk, TreesChunk } from '@engine/components/generation'
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { Vector3 } from 'three'
 import { AppContext } from '../context/AppContext/AppContext'
 
@@ -9,14 +9,17 @@ export const Engine = () => {
     //@ts-ignore
     const { setClickPos } = useContext(AppContext)
 
-    const handleClickPos = (_newPos: Vector3) => {
-        const newPos = new Vector3(
-            +_newPos.x.toFixed(10),
-            +_newPos.y.toFixed(10),
-            +_newPos.z.toFixed(10)
-        )
-        setClickPos(newPos)
-    }
+    const handleClickPos = useMemo(
+        () => (_newPos: Vector3) => {
+            const newPos = new Vector3(
+                +_newPos.x.toFixed(10),
+                +_newPos.y.toFixed(10),
+                +_newPos.z.toFixed(10)
+            )
+            setClickPos(newPos)
+        },
+        []
+    )
 
     return (
         <>
