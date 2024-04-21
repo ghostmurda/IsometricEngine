@@ -13,6 +13,7 @@ import {
 } from '@engine/utils/constants'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { checkIsPlayerInside } from '@engine/utils/checkIsPlayerInside'
+import { checkShadowColor } from '@engine/utils/shadow'
 
 const tileTypes: ITileTypes = {
     0: grass0,
@@ -23,35 +24,44 @@ const tileTypes: ITileTypes = {
 
 export const TileGround = React.memo(
     ({
-        x,
-        y,
-        z,
+        pos,
         type,
         isPatternChanging,
         onClickCallback,
         setInsideCb,
         setOutsideCb,
         playerPos: _playerPos,
+        lightPos,
     }: ITileGroundProps) => {
         const texture = useTexture(tileTypes[type])
         const calculatedZ =
-            z === 1 ? TILE_GROUND_Z_HEIGHT : z - 1 + TILE_GROUND_Z_HEIGHT
-        const position = new Vector3(x, calculatedZ, y)
+            pos.z === 1
+                ? TILE_GROUND_Z_HEIGHT
+                : pos.z - 1 + TILE_GROUND_Z_HEIGHT
+        const position = new Vector3(pos.x, calculatedZ, pos.y)
 
         const playerPos = useMemo(() => {
-            if (!_playerPos?.x) {
+            if (!_playerPos) {
                 return
             }
 
-            return new Vector3(_playerPos?.x, _playerPos?.y, _playerPos?.z)
+            return new Vector3(_playerPos.x, _playerPos.y, _playerPos.z)
         }, [_playerPos])
+
+        const shadowColor = useMemo(() => {
+            if (!lightPos) {
+                return
+            }
+
+            return checkShadowColor(pos, lightPos)
+        }, [lightPos, pos])
 
         const checkDistanceToPlayer = useCallback(() => {
             if (playerPos && setInsideCb && setOutsideCb) {
                 checkIsPlayerInside({
                     playerPos,
-                    x,
-                    z,
+                    x: pos.x,
+                    z: pos.z,
                     isPatternChanging,
                     setInsideCb,
                     setOutsideCb,
@@ -75,7 +85,7 @@ export const TileGround = React.memo(
                 ]}
                 onClick={() => onClickCallback(position)}
             >
-                <spriteMaterial map={texture} />
+                <spriteMaterial map={texture} color={shadowColor} />
             </sprite>
         )
     }

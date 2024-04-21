@@ -1,12 +1,15 @@
 import React, { useMemo } from 'react'
 import { TileGround, TileWall } from './components'
-import { randFloat } from 'three/src/math/MathUtils'
 import { Vector3 } from 'three'
 
 const SIZE_WIDTH = 60
 const SIZE_HEIGHT = 60
 const DEFAULT_TILE = 0
 const z = 0
+
+const LIGHT_POS = new Vector3(10, 0, 10)
+    .normalize()
+    .multiply(new Vector3(0, 1, 0))
 
 interface ITerrainGridProps {
     handleClickPosition: (newPos: Vector3) => void
@@ -31,28 +34,28 @@ export const TerrainGrid = React.memo(
                         return
                     }
 
+                    const x = col
+                    const y = +row
+                    const pos = new Vector3(x, y, z)
+                    const key =
+                        tileType.toString() +
+                        x.toString() +
+                        y.toString() +
+                        z.toString()
+
                     if (tileType < 5) {
                         return (
                             <TileGround
-                                x={col}
-                                y={+row}
-                                z={+z}
+                                pos={pos}
                                 type={tileType}
-                                key={tileType + col + row + z + randFloat(0, 1)}
+                                key={key}
                                 onClickCallback={handleClickPosition}
+                                lightPos={LIGHT_POS}
                             />
                         )
                     }
 
-                    return (
-                        <TileWall
-                            x={col}
-                            y={+row}
-                            z={+z}
-                            type={tileType}
-                            key={tileType + col + row + z + randFloat(0, 1)}
-                        />
-                    )
+                    return <TileWall pos={pos} type={tileType} key={key} />
                 })
             })
         }, [])

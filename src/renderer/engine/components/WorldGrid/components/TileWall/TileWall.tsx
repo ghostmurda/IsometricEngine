@@ -4,17 +4,14 @@ import { ITileWallProps, ITileTypes } from './TileWall.d'
 import brickWall1 from '@assets/tiles/walls/brickWall1.png'
 import castleWall1 from '@assets/tiles/walls/castleWall1.png'
 import {
-    TILE_MEDIUM_SHADOW_COLOR,
-    TILE_STRONG_SHADOW_COLOR,
     TILE_WALL_HEIGHT,
     TILE_WALL_WIDTH,
     TILE_WALL_Z_HEIGHT,
-    TILE_WEAK_SHADOW_COLOR,
 } from '@engine/utils/constants'
-import React, { useCallback, useContext, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { Vector3 } from 'three'
 import { checkIsPlayerInside } from '@engine/utils/checkIsPlayerInside'
-import { AppContext } from '@context/AppContext'
+import { checkShadowColor } from '@engine/utils/shadow'
 
 const tileTypes: ITileTypes = {
     5: brickWall1,
@@ -23,33 +20,41 @@ const tileTypes: ITileTypes = {
 
 export const TileWall = React.memo(
     ({
-        x,
-        y,
-        z,
+        pos,
         type,
         isPatternChanging,
         setInsideCb,
         setOutsideCb,
         playerPos: _playerPos,
+        lightPos,
     }: ITileWallProps) => {
         const texture = useTexture(tileTypes[type])
         const calculatedZ =
-            z === 1 ? TILE_WALL_Z_HEIGHT : z - 1 + TILE_WALL_Z_HEIGHT
+            pos.z === 1 ? TILE_WALL_Z_HEIGHT : pos.z - 1 + TILE_WALL_Z_HEIGHT
+        const position = new Vector3(pos.x, calculatedZ, pos.y)
 
         const playerPos = useMemo(() => {
-            if (!_playerPos?.x) {
+            if (!_playerPos) {
                 return
             }
 
-            return new Vector3(_playerPos?.x, _playerPos?.y, _playerPos?.z)
+            return new Vector3(_playerPos.x, _playerPos.y, _playerPos.z)
         }, [_playerPos])
+
+        const shadowColor = useMemo(() => {
+            if (!lightPos) {
+                return
+            }
+
+            return checkShadowColor(pos, lightPos)
+        }, [lightPos, pos])
 
         const checkDistanceToPlayer = useCallback(() => {
             if (playerPos && setInsideCb && setOutsideCb) {
                 checkIsPlayerInside({
                     playerPos,
-                    x,
-                    z,
+                    x: pos.x,
+                    z: pos.z,
                     isPatternChanging,
                     setInsideCb,
                     setOutsideCb,
@@ -70,13 +75,10 @@ export const TileWall = React.memo(
                 <meshStandardMaterial map={texture} />
             </mesh> */}
                 <sprite
-                    position={[x, calculatedZ, y]}
+                    position={position}
                     scale={[TILE_WALL_WIDTH, TILE_WALL_HEIGHT, TILE_WALL_WIDTH]}
                 >
-                    <spriteMaterial
-                        map={texture}
-                        color={TILE_STRONG_SHADOW_COLOR}
-                    />
+                    <spriteMaterial map={texture} color={shadowColor} />
                 </sprite>
             </>
         )
