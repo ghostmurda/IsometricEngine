@@ -64,7 +64,7 @@ export const TerrainGrid = React.memo(
 
         return (
             <>
-                <gridHelper args={[SIZE_WIDTH, SIZE_HEIGHT, 'white', 'gray']} />
+                {/* <gridHelper args={[SIZE_WIDTH, SIZE_HEIGHT, 'white', 'gray']} /> */}
                 {renderTiles}
             </>
         )

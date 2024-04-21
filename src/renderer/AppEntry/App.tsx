@@ -11,7 +11,7 @@ function GameEngine() {
     return (
         <div className={styles.appContainer}>
             <AppContextProvider>
-                <Canvas shadows>
+                <Canvas shadows gl={{ physicallyCorrectLights: true }}>
                     <Engine />
                     <Stats />
                 </Canvas>
