@@ -24,7 +24,7 @@ export const Tree = ({ x, y, z }: ITreeProps) => {
             >
                 <primitive object={tree3dObj.clone()} />
                 <meshStandardMaterial map={texture.clone()} />
-                <ShadowSprite x={x} y={y} z={z} scale={new Vector3(4, 2, 4)} />
+                {/* <ShadowSprite x={x} y={y} z={z} scale={new Vector3(4, 2, 4)} /> */}
             </mesh>
         </>
     )

@@ -11,9 +11,8 @@ import {
     TILE_GROUND_WIDTH,
     TILE_GROUND_Z_HEIGHT,
 } from '@engine/utils/constants'
-import { useCallback, useContext, useEffect, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { checkIsPlayerInside } from '@engine/utils/checkIsPlayerInside'
-import { AppContext } from '@context/AppContext'
 
 const tileTypes: ITileTypes = {
     0: grass0,
@@ -22,54 +21,62 @@ const tileTypes: ITileTypes = {
     3: castle0,
 }
 
-export const TileGround = ({
-    x,
-    y,
-    z,
-    type,
-    isPatternChanging,
-    onClickCallback,
-    setInsideCb,
-    setOutsideCb,
-}: ITileGroundProps) => {
-    const { playerPos: _playerPos } = useContext(AppContext)
-    const texture = useTexture(tileTypes[type])
-    const calculatedZ =
-        z === 1 ? TILE_GROUND_Z_HEIGHT : z - 1 + TILE_GROUND_Z_HEIGHT
-    const position = new Vector3(x, calculatedZ, y)
+export const TileGround = React.memo(
+    ({
+        x,
+        y,
+        z,
+        type,
+        isPatternChanging,
+        onClickCallback,
+        setInsideCb,
+        setOutsideCb,
+        playerPos: _playerPos,
+    }: ITileGroundProps) => {
+        const texture = useTexture(tileTypes[type])
+        const calculatedZ =
+            z === 1 ? TILE_GROUND_Z_HEIGHT : z - 1 + TILE_GROUND_Z_HEIGHT
+        const position = new Vector3(x, calculatedZ, y)
 
-    const playerPos = useMemo(() => {
-        if (!_playerPos?.x) {
-            return
-        }
+        const playerPos = useMemo(() => {
+            if (!_playerPos?.x) {
+                return
+            }
 
-        return new Vector3(_playerPos?.x, _playerPos?.y, _playerPos?.z)
-    }, [_playerPos?.x, _playerPos?.y, _playerPos?.z])
+            return new Vector3(_playerPos?.x, _playerPos?.y, _playerPos?.z)
+        }, [_playerPos])
 
-    const checkDistanceToPlayer = useCallback(() => {
-        checkIsPlayerInside({
-            playerPos,
-            x,
-            z,
-            isPatternChanging,
-            setInsideCb,
-            setOutsideCb,
-        })
-    }, [playerPos])
+        const checkDistanceToPlayer = useCallback(() => {
+            if (playerPos && setInsideCb && setOutsideCb) {
+                checkIsPlayerInside({
+                    playerPos,
+                    x,
+                    z,
+                    isPatternChanging,
+                    setInsideCb,
+                    setOutsideCb,
+                })
+            }
+        }, [playerPos, setInsideCb, setOutsideCb])
 
-    useEffect(() => {
-        if (playerPos) {
-            checkDistanceToPlayer()
-        }
-    }, [playerPos])
+        useEffect(() => {
+            if (playerPos && setInsideCb) {
+                checkDistanceToPlayer()
+            }
+        }, [playerPos, setInsideCb])
 
-    return (
-        <sprite
-            position={position}
-            scale={[TILE_GROUND_WIDTH, TILE_GROUND_HEIGHT, TILE_GROUND_WIDTH]}
-            onClick={() => onClickCallback(position)}
-        >
-            <spriteMaterial map={texture} />
-        </sprite>
-    )
-}
+        return (
+            <sprite
+                position={position}
+                scale={[
+                    TILE_GROUND_WIDTH,
+                    TILE_GROUND_HEIGHT,
+                    TILE_GROUND_WIDTH,
+                ]}
+                onClick={() => onClickCallback(position)}
+            >
+                <spriteMaterial map={texture} />
+            </sprite>
+        )
+    }
+)

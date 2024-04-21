@@ -1,6 +1,6 @@
 import { randFloat } from 'three/src/math/MathUtils'
 import { Vector3 } from 'three'
-import { IWorldMatrix } from './WorldGrid.d'
+import { IWorldMatrix } from './PatternGrid.d'
 import { TileGround, TileWall } from './components'
 import housePattern from '@engine/utils/generation/patterns/houseSmall.json'
 import housePatternInside from '@engine/utils/generation/patterns/houseSmallInside.json'
@@ -10,7 +10,8 @@ interface IWorldGridProps {
     handleClickPosition: (newPos: Vector3) => void
 }
 
-export const WorldGrid = ({ handleClickPosition }: IWorldGridProps) => {
+// TODO add option to not use pattern inside
+export const PatternGrid = ({ handleClickPosition }: IWorldGridProps) => {
     const [pattern, setPattern] = useState(housePattern)
     const [isPatternChanging, setIsPatternChanging] = useState(false)
 
@@ -50,9 +51,9 @@ export const WorldGrid = ({ handleClickPosition }: IWorldGridProps) => {
                             type={tileType}
                             key={tileType + col + row + z + randFloat(0, 1)}
                             onClickCallback={handleClickPosition}
-                            setInsideCb={handleSetPatternInside}
-                            setOutsideCb={handleSetPatternOutside}
-                            isPatternChanging={isPatternChanging}
+                            // setInsideCb={handleSetPatternInside}
+                            // setOutsideCb={handleSetPatternOutside}
+                            // isPatternChanging={isPatternChanging}
                         />
                     )
                 }
@@ -64,9 +65,9 @@ export const WorldGrid = ({ handleClickPosition }: IWorldGridProps) => {
                         z={+z}
                         type={tileType}
                         key={tileType + col + row + z + randFloat(0, 1)}
-                        setInsideCb={handleSetPatternInside}
-                        setOutsideCb={handleSetPatternOutside}
-                        isPatternChanging={isPatternChanging}
+                        // setInsideCb={handleSetPatternInside}
+                        // setOutsideCb={handleSetPatternOutside}
+                        // isPatternChanging={isPatternChanging}
                     />
                 )
             })

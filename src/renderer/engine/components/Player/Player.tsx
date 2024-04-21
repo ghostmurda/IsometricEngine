@@ -6,11 +6,12 @@ import { CameraIsometric } from '../Camera'
 import paladinModel from '../../../../../assets/models/knight.gltf'
 import { ShadowSprite } from '../ShadowSprite'
 import { AppContext } from '@context/AppContext'
+import React from 'react'
 
 const LERP_DIFFERENCE_ERROR = 0.1
 const SPEED = 350
 
-export const Player = () => {
+export const Player = React.memo(() => {
     const { setPlayerPos, clickPos } = useContext(AppContext)
     const playerModel = useGLTF(
         paladinModel,
@@ -123,4 +124,4 @@ export const Player = () => {
             />
         </mesh>
     )
-}
+})

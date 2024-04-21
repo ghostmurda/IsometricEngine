@@ -1,1 +1,2 @@
-export * from './WorldGrid'
+export * from './PatternGrid'
+export * from './TerrainGrid'

@@ -1,5 +1,5 @@
 import { Player } from '@engine/components/Player'
-import { WorldGrid } from '@engine/components/WorldGrid'
+import { PatternGrid, TerrainGrid } from '@engine/components/WorldGrid'
 import { TerrainChunk, TreesChunk } from '@engine/components/generation'
 import { useContext } from 'react'
 import { Vector3 } from 'three'
@@ -7,7 +7,7 @@ import { AppContext } from '../context/AppContext/AppContext'
 
 export const Engine = () => {
     //@ts-ignore
-    const { setClickPos, worldSeed } = useContext(AppContext)
+    const { setClickPos } = useContext(AppContext)
 
     const handleClickPos = (_newPos: Vector3) => {
         const newPos = new Vector3(
@@ -21,8 +21,9 @@ export const Engine = () => {
     return (
         <>
             <Player />
-            <WorldGrid handleClickPosition={handleClickPos} />
-            {worldSeed && (
+            <PatternGrid handleClickPosition={handleClickPos} />
+            <TerrainGrid handleClickPosition={handleClickPos} />
+            {/* {worldSeed && (
                 <TerrainChunk
                     seed={worldSeed}
                     size={50}
@@ -31,14 +32,14 @@ export const Engine = () => {
                     scale={1}
                     handleClickPosition={handleClickPos}
                 />
-            )}
+            )} */}
             <TreesChunk count={50} />
-            {/* <directionalLight
-                castShadow
-                position={new Vector3(0, 10, 0)}
-                intensity={0.8}
-            /> */}
-            <fogExp2 attach="fog" color="black" density={0.03} />
+            <directionalLight
+                // castShadow
+                // position={new Vector3(0, 10, 0)}
+                intensity={0.1}
+            />
+            {/* <fogExp2 attach="fog" color="black" density={0.03} /> */}
         </>
     )
 }

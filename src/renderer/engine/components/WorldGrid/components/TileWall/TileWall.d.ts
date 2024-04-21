@@ -5,9 +5,10 @@ export interface ITileWallProps {
     y: number
     z: number
     type: number
-    setInsideCb: () => void
-    setOutsideCb: () => void
+    setInsideCb?: () => void
+    setOutsideCb?: () => void
     isPatternChanging?: boolean
+    playerPos?: Vector3
 }
 
 export interface ITileTypes {
