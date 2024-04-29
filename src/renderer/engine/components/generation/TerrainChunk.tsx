@@ -4,7 +4,6 @@ import { createNoise2D } from 'simplex-noise'
 import alea from 'alea'
 import { ThreeEvent, useLoader } from '@react-three/fiber'
 import generateTerrain from './utils/generateTerrain'
-import grassTexture from '../../../../../assets/textures/grass1.png'
 
 interface ITerrainChunkProps {
     seed: number | string
@@ -27,10 +26,10 @@ export const TerrainChunk = ({
 }: ITerrainChunkProps) => {
     const simplex = createNoise2D(alea(seed))
     const ref = useRef<PlaneGeometry>(null)
-    const texturePlane = useLoader(TextureLoader, grassTexture)
+    //const texturePlane = useLoader(TextureLoader, grassTexture)
     // texturePlane.wrapS = 8 as Wrapping
     // texturePlane.wrapT = 8 as Wrapping
-    texturePlane.repeat.set(16, 16)
+    //texturePlane.repeat.set(16, 16)
 
     useLayoutEffect(() => {
         if (ref.current) {
@@ -69,11 +68,11 @@ export const TerrainChunk = ({
                 args={[size, size, size - 1, size - 1]}
                 ref={ref}
             />
-            <meshLambertMaterial
+            {/* <meshLambertMaterial
                 map={texturePlane}
                 opacity={1}
                 lightMapIntensity={1}
-            />
+            /> */}
         </mesh>
     )
 }

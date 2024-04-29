@@ -1,14 +1,13 @@
-import React from 'react'
+import { memo } from 'react'
 import { Vector3 } from 'three'
 
 interface ILightPointProps {
     pos: Vector3
 }
 
-// TODO make static lightmap with light points
-export const LightPoint = React.memo(({ pos }: ILightPointProps) => {
+export const LightPoint = memo(({ pos }: ILightPointProps) => {
     return (
-        <mesh position={pos}>
+        <mesh position={[pos.x, pos.z, pos.y]} visible={false}>
             <boxGeometry args={[1, 1, 1]} />
         </mesh>
     )

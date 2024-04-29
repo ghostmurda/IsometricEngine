@@ -57,6 +57,7 @@ npm run package
 ## Patch notes
 
 ```bash
+30.04.2024 - static lightmap, tree sprites, shadow color calculating
 22.04.2024 - rendering optimization, light system prototype
 ```
 

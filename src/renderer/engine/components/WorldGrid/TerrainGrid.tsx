@@ -7,16 +7,13 @@ const SIZE_HEIGHT = 60
 const DEFAULT_TILE = 0
 const z = 0
 
-const LIGHT_POS = new Vector3(10, 0, 10)
-    .normalize()
-    .multiply(new Vector3(0, 1, 0))
-
 interface ITerrainGridProps {
+    lightMap?: Vector3[]
     handleClickPosition: (newPos: Vector3) => void
 }
 
 export const TerrainGrid = React.memo(
-    ({ handleClickPosition }: ITerrainGridProps) => {
+    ({ lightMap, handleClickPosition }: ITerrainGridProps) => {
         const renderTiles = useMemo(() => {
             const planeData = {} as Record<string, number[]>
 
@@ -50,12 +47,19 @@ export const TerrainGrid = React.memo(
                                 type={tileType}
                                 key={key}
                                 onClickCallback={handleClickPosition}
-                                lightPos={LIGHT_POS}
+                                lightMap={lightMap}
                             />
                         )
                     }
 
-                    return <TileWall pos={pos} type={tileType} key={key} />
+                    return (
+                        <TileWall
+                            pos={pos}
+                            type={tileType}
+                            key={key}
+                            lightMap={lightMap}
+                        />
+                    )
                 })
             })
         }, [])

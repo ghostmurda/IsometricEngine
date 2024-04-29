@@ -11,7 +11,7 @@ import {
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { Vector3 } from 'three'
 import { checkIsPlayerInside } from '@engine/utils/checkIsPlayerInside'
-import { checkShadowColor } from '@engine/utils/shadow'
+import { calculateShadowColor } from '@engine/utils/shadow'
 
 const tileTypes: ITileTypes = {
     5: brickWall1,
@@ -26,7 +26,7 @@ export const TileWall = React.memo(
         setInsideCb,
         setOutsideCb,
         playerPos: _playerPos,
-        lightPos,
+        lightMap,
     }: ITileWallProps) => {
         const texture = useTexture(tileTypes[type])
         const calculatedZ =
@@ -42,12 +42,12 @@ export const TileWall = React.memo(
         }, [_playerPos])
 
         const shadowColor = useMemo(() => {
-            if (!lightPos) {
+            if (!lightMap || !lightMap.length) {
                 return
             }
 
-            return checkShadowColor(pos, lightPos)
-        }, [lightPos, pos])
+            return calculateShadowColor(pos, lightMap)
+        }, [lightMap, pos])
 
         const checkDistanceToPlayer = useCallback(() => {
             if (playerPos && setInsideCb && setOutsideCb) {

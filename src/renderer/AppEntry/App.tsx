@@ -11,6 +11,7 @@ function GameEngine() {
     return (
         <div className={styles.appContainer}>
             <AppContextProvider>
+                {/* @ts-ignore */}
                 <Canvas shadows gl={{ physicallyCorrectLights: true }}>
                     <Engine />
                     <Stats />

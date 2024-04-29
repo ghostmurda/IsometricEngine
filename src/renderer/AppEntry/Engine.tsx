@@ -1,13 +1,12 @@
-import { Player } from '@engine/components/Player'
 import { PatternGrid, TerrainGrid } from '@engine/components/WorldGrid'
-import { TerrainChunk, TreesChunk } from '@engine/components/generation'
+import { TreesChunk } from '@engine/components/generation'
 import { useContext, useMemo } from 'react'
 import { Vector3 } from 'three'
 import { AppContext } from '../context/AppContext/AppContext'
+import { Player, StaticLightMap } from '../engine'
 
 export const Engine = () => {
-    //@ts-ignore
-    const { setClickPos } = useContext(AppContext)
+    const { lightMap, setClickPos } = useContext(AppContext)
 
     const handleClickPos = useMemo(
         () => (_newPos: Vector3) => {
@@ -16,7 +15,7 @@ export const Engine = () => {
                 +_newPos.y.toFixed(10),
                 +_newPos.z.toFixed(10)
             )
-            setClickPos(newPos)
+            setClickPos?.(newPos)
         },
         []
     )
@@ -24,8 +23,14 @@ export const Engine = () => {
     return (
         <>
             <Player />
-            <PatternGrid handleClickPosition={handleClickPos} />
-            <TerrainGrid handleClickPosition={handleClickPos} />
+            <PatternGrid
+                lightMap={lightMap}
+                handleClickPosition={handleClickPos}
+            />
+            <TerrainGrid
+                lightMap={lightMap}
+                handleClickPosition={handleClickPos}
+            />
             {/* {worldSeed && (
                 <TerrainChunk
                     seed={worldSeed}
@@ -36,12 +41,13 @@ export const Engine = () => {
                     handleClickPosition={handleClickPos}
                 />
             )} */}
-            <TreesChunk count={50} />
+            <TreesChunk lightMap={lightMap} count={50} />
             <directionalLight
                 // castShadow
                 // position={new Vector3(0, 10, 0)}
                 intensity={0.1}
             />
+            {!!lightMap?.length && <StaticLightMap lightMap={lightMap} />}
             {/* <fogExp2 attach="fog" color="black" density={0.03} /> */}
         </>
     )

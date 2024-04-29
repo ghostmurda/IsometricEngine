@@ -9,7 +9,7 @@ export interface ITileGroundProps {
     setOutsideCb?: () => void
     isPatternChanging?: boolean
     playerPos?: Vector3
-    lightPos?: Vector3
+    lightMap?: Vector3[]
 }
 
 export interface ITileTypes {

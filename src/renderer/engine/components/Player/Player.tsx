@@ -76,7 +76,7 @@ export const Player = React.memo(() => {
                 const newY = +currentPosition.y.toFixed(10)
                 const newPosition = new Vector3(newX, newY, newZ)
 
-                setPlayerPos(newPosition)
+                setPlayerPos?.(newPosition)
 
                 const lookAtVector = new Vector3(
                     clickPos.x,
@@ -95,20 +95,12 @@ export const Player = React.memo(() => {
         }
     })
 
-    const ponterLightPos = new Vector3(
-        currentPosition.x,
-        currentPosition.y + 2,
-        currentPosition.z
-    )
-        .normalize()
-        .multiply(new Vector3(0, 1, 0))
-
     if (!playerModel) {
         return null
     }
 
     return (
-        <mesh position={[0, 0.7, 0]} ref={playerRef}>
+        <mesh position={[0, 0.7, 0]} ref={playerRef} receiveShadow>
             <primitive
                 object={(playerModel as any)?.scene}
                 ref={playerModelRef}

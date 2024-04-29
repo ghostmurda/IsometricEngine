@@ -1,36 +1,30 @@
-import { randFloat } from 'three/src/math/MathUtils'
 import { Vector3 } from 'three'
 import { IWorldMatrix } from './PatternGrid.d'
 import { TileGround, TileWall } from './components'
 import housePattern from '@engine/utils/generation/patterns/houseSmall.json'
 import housePatternInside from '@engine/utils/generation/patterns/houseSmallInside.json'
-import { useEffect, useMemo, useState } from 'react'
-import React from 'react'
-import { LightPoint } from '../LightPoint'
+import { memo, useEffect, useMemo, useState } from 'react'
 
 interface IWorldGridProps {
+    lightMap?: Vector3[]
     handleClickPosition: (newPos: Vector3) => void
 }
 
-const LIGHT_POS = new Vector3(10, 0, 10)
-    .normalize()
-    .multiply(new Vector3(0, 1, 0))
-
 // TODO add option to not use pattern inside
-export const PatternGrid = React.memo(
-    ({ handleClickPosition }: IWorldGridProps) => {
+export const PatternGrid = memo(
+    ({ lightMap, handleClickPosition }: IWorldGridProps) => {
         const [pattern, setPattern] = useState(housePattern)
         const [isPatternChanging, setIsPatternChanging] = useState(false)
 
-        const handleSetPatternInside = () => {
-            setPattern(housePatternInside as typeof housePattern)
-            setIsPatternChanging(true)
-        }
+        // const handleSetPatternInside = () => {
+        //     setPattern(housePatternInside as typeof housePattern)
+        //     setIsPatternChanging(true)
+        // }
 
-        const handleSetPatternOutside = () => {
-            setPattern(housePattern)
-            setIsPatternChanging(true)
-        }
+        // const handleSetPatternOutside = () => {
+        //     setPattern(housePattern)
+        //     setIsPatternChanging(true)
+        // }
 
         useEffect(() => {
             if (isPatternChanging) {
@@ -66,7 +60,7 @@ export const PatternGrid = React.memo(
                                 type={tileType}
                                 key={key}
                                 onClickCallback={handleClickPosition}
-                                lightPos={LIGHT_POS}
+                                lightMap={lightMap}
                                 // setInsideCb={handleSetPatternInside}
                                 // setOutsideCb={handleSetPatternOutside}
                                 // isPatternChanging={isPatternChanging}
@@ -79,7 +73,7 @@ export const PatternGrid = React.memo(
                             pos={pos}
                             type={tileType}
                             key={key}
-                            lightPos={LIGHT_POS}
+                            lightMap={lightMap}
                             // setInsideCb={handleSetPatternInside}
                             // setOutsideCb={handleSetPatternOutside}
                             // isPatternChanging={isPatternChanging}
@@ -109,7 +103,6 @@ export const PatternGrid = React.memo(
             <>
                 {/* <gridHelper args={[20, 20, 'white', 'gray']} /> */}
                 {renderAllLevels}
-                <LightPoint pos={LIGHT_POS} />
             </>
         )
     }

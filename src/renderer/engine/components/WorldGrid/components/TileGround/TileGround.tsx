@@ -13,7 +13,7 @@ import {
 } from '@engine/utils/constants'
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { checkIsPlayerInside } from '@engine/utils/checkIsPlayerInside'
-import { checkShadowColor } from '@engine/utils/shadow'
+import { calculateShadowColor } from '@engine/utils/shadow'
 
 const tileTypes: ITileTypes = {
     0: grass0,
@@ -31,7 +31,7 @@ export const TileGround = React.memo(
         setInsideCb,
         setOutsideCb,
         playerPos: _playerPos,
-        lightPos,
+        lightMap,
     }: ITileGroundProps) => {
         const texture = useTexture(tileTypes[type])
         const calculatedZ =
@@ -49,12 +49,12 @@ export const TileGround = React.memo(
         }, [_playerPos])
 
         const shadowColor = useMemo(() => {
-            if (!lightPos) {
+            if (!lightMap || !lightMap.length) {
                 return
             }
 
-            return checkShadowColor(pos, lightPos)
-        }, [lightPos, pos])
+            return calculateShadowColor(pos, lightMap)
+        }, [lightMap, pos])
 
         const checkDistanceToPlayer = useCallback(() => {
             if (playerPos && setInsideCb && setOutsideCb) {
