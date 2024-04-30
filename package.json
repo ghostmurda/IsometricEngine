@@ -110,8 +110,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
     "simplex-noise": "^4.0.1",
-    "three": "^0.152.2",
-    "wavefunctioncollapse": "^2.1.0"
+    "three": "^0.152.2"
   },
   "devDependencies": {
     "@electron/notarize": "^1.2.3",

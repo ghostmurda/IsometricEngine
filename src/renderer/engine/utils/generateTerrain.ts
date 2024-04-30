@@ -17,6 +17,7 @@ export default function generateTerrain(
         (level > 1 ? noise(level / 2, x, z) : 0)
     return Float32Array.from(
         new Array(size ** 2 * 3),
+        //@ts-ignore
         (_: number, i: number) => {
             let v
             switch (i % 3) {

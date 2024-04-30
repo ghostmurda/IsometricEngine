@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
-import { TileGround, TileWall } from './components'
 import { Vector3 } from 'three'
+import { TileGround } from '../TileGround'
+import { TileWall } from '../TileWall'
 
 const SIZE_WIDTH = 60
 const SIZE_HEIGHT = 60

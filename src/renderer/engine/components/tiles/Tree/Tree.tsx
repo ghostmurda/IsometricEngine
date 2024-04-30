@@ -11,7 +11,7 @@ import tree1_05 from '@assets/textures/tree_01/_tree_01_40000.png'
 import tree1_06 from '@assets/textures/tree_01/_tree_01_50000.png'
 
 import { randFloat } from 'three/src/math/MathUtils'
-import { useShadow } from '../../hooks/useShadow'
+import { useShadow } from '../../../hooks/useShadow'
 
 interface ITreeProps {
     pos: Vector3

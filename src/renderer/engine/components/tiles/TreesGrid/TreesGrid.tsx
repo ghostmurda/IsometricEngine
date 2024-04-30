@@ -9,7 +9,7 @@ interface ITreesChunkProps {
     count?: number
 }
 
-export const TreesChunk = React.memo(
+export const TreesGrid = React.memo(
     ({ size = 50, count = 150 }: ITreesChunkProps) => {
         const renderTrees = useMemo(
             () =>

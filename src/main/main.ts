@@ -12,7 +12,6 @@ import path from 'path'
 import { app, BrowserWindow, shell, ipcMain, nativeImage } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import log from 'electron-log'
-import wfc from 'wavefunctioncollapse'
 import MenuBuilder from './menu'
 import { resolveHtmlPath } from './util'
 
@@ -30,44 +29,6 @@ ipcMain.on('ipc-example', async (event, arg) => {
     const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`
     console.log(msgTemplate(arg))
     event.reply('ipc-example', msgTemplate('pong'))
-})
-
-ipcMain.on('wfc-gen-world', (event, arg) => {
-    const pattern = nativeImage.createFromPath(
-        './assets/genPatterns/cityRoads.png'
-    )
-
-    const bitmap = pattern.getBitmap()
-
-    event.sender.send('wfc-gen-world', bitmap)
-
-    // const data = bitmap
-    // const width = 20
-    // const height = 20
-    // const destWidth = 96
-    // const destHeight = 96
-
-    // const model = new wfc.OverlappingModel(
-    //     data,
-    //     width,
-    //     height,
-    //     4,
-    //     destWidth,
-    //     destHeight,
-    //     true,
-    //     false,
-    //     8,
-    //     0
-    // )
-    // const finished = model.generate('1')
-
-    // if (finished) {
-    //     const result = model.graphics()
-    //     event.sender.send('wfc-gen-world', result.buffer)
-    //     console.dir(result.buffer, { maxArrayLength: null })
-    // } else {
-    //     console.log('The generation ended in a contradiction')
-    // }
 })
 
 if (process.env.NODE_ENV === 'production') {

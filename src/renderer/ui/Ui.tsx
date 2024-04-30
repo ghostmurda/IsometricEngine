@@ -1,7 +1,7 @@
 import { ActionBarModule } from './modules'
-import styles from './UiMain.styles.module.scss'
+import styles from './Ui.styles.module.scss'
 
-export const UiMain = () => {
+export const Ui = () => {
     return (
         <div className={styles.uiWrapper}>
             <ActionBarModule />

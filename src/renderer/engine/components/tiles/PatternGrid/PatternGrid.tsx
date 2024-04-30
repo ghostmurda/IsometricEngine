@@ -1,9 +1,11 @@
 import { Vector3 } from 'three'
 import { IWorldMatrix } from './PatternGrid.d'
-import { TileGround, TileWall } from './components'
-import housePattern from '@engine/utils/generation/patterns/houseSmall.json'
-import housePatternInside from '@engine/utils/generation/patterns/houseSmallInside.json'
+
+import housePattern from '@engine/utils/patterns/houseSmall.json'
+
 import { memo, useEffect, useMemo, useState } from 'react'
+import { TileGround } from '../TileGround'
+import { TileWall } from '../TileWall'
 
 interface IWorldGridProps {
     lightMap?: Vector3[]

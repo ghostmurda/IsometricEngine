@@ -1,9 +1,9 @@
 import { useLayoutEffect, useRef } from 'react'
-import { BufferAttribute, PlaneGeometry, TextureLoader, Vector3 } from 'three'
+import { BufferAttribute, PlaneGeometry, Vector3 } from 'three'
 import { createNoise2D } from 'simplex-noise'
 import alea from 'alea'
-import { ThreeEvent, useLoader } from '@react-three/fiber'
-import generateTerrain from './utils/generateTerrain'
+import { ThreeEvent } from '@react-three/fiber'
+import generateTerrain from '../../utils/generateTerrain'
 
 interface ITerrainChunkProps {
     seed: number | string

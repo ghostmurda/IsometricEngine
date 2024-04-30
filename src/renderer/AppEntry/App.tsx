@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import { Stats } from '@react-three/drei'
 import { Engine } from '../engine'
 import { AppContextProvider } from '@context/AppContext'
-import { UiMain } from '../ui/UiMain'
+import { Ui } from '../ui/Ui'
 import styles from './App.module.scss'
 
 function GameEngine() {
@@ -16,7 +16,7 @@ function GameEngine() {
                     <Engine />
                     <Stats />
                 </Canvas>
-                <UiMain />
+                <Ui />
             </AppContextProvider>
         </div>
     )
