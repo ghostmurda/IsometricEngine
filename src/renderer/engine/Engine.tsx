@@ -3,7 +3,7 @@ import { TreesChunk } from '@engine/components/generation'
 import { useContext, useMemo } from 'react'
 import { Vector3 } from 'three'
 import { AppContext } from '../context/AppContext/AppContext'
-import { Player, StaticLightMap } from '../engine'
+import { Player, StaticLightMap } from '.'
 
 export const Engine = () => {
     const { lightMap, setClickPos } = useContext(AppContext)
@@ -41,12 +41,8 @@ export const Engine = () => {
                     handleClickPosition={handleClickPos}
                 />
             )} */}
-            <TreesChunk lightMap={lightMap} count={50} />
-            <directionalLight
-                // castShadow
-                // position={new Vector3(0, 10, 0)}
-                intensity={0.1}
-            />
+            <TreesChunk count={50} />
+            <directionalLight intensity={0.1} />
             {!!lightMap?.length && <StaticLightMap lightMap={lightMap} />}
             {/* <fogExp2 attach="fog" color="black" density={0.03} /> */}
         </>

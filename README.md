@@ -8,6 +8,7 @@ Current features:
 <li>custom light system</li>
 <li>2d world tiles generating based on matrix of tile types numbers</li>
 <li>sprites as world tiles</li>
+<li>static lightmap</li>
 </ul>
 
 <br>
@@ -15,13 +16,11 @@ Current features:
 TODO:
 
 <ul>
-<li>static lighmap</li>
 <li>dynamic lighmap or only one dynamic light point calculating</li>
 <li>movement on tiles with A* </li>
 <li>map generating from file</li>
 <li>placing blocks on map and saving map</li>
 <li>static npc</li>
-<li>basic dialog system with static npc</li>
 <li>hostile npc, battle system</li>
 </ul>
 

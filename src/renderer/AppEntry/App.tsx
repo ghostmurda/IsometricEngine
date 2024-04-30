@@ -2,7 +2,7 @@ import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import { Canvas } from '@react-three/fiber'
 import { Stats } from '@react-three/drei'
-import { Engine } from './Engine'
+import { Engine } from '../engine'
 import { AppContextProvider } from '@context/AppContext'
 import { UiMain } from '../ui/UiMain'
 import styles from './App.module.scss'
@@ -12,7 +12,7 @@ function GameEngine() {
         <div className={styles.appContainer}>
             <AppContextProvider>
                 {/* @ts-ignore */}
-                <Canvas shadows gl={{ physicallyCorrectLights: true }}>
+                <Canvas shadows>
                     <Engine />
                     <Stats />
                 </Canvas>

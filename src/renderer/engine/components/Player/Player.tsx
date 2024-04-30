@@ -1,17 +1,17 @@
 import { useFrame } from '@react-three/fiber'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { memo, useContext, useEffect, useRef, useState } from 'react'
 import { Vector3, Mesh } from 'three'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { CameraIsometric } from '../Camera'
 import paladinModel from '../../../../../assets/models/knight.gltf'
 import { ShadowSprite } from '../ShadowSprite'
 import { AppContext } from '@context/AppContext'
-import React from 'react'
+import { useShadow } from '../../hooks/useShadow'
 
 const LERP_DIFFERENCE_ERROR = 0.1
 const SPEED = 350
 
-export const Player = React.memo(() => {
+export const Player = () => {
     const { setPlayerPos, clickPos } = useContext(AppContext)
     const playerModel = useGLTF(
         paladinModel,
@@ -24,6 +24,11 @@ export const Player = React.memo(() => {
     const playerRef = useRef<Mesh>(null)
     const playerModelRef = useRef<Mesh>(null)
     const currentPosition = playerRef.current?.position || new Vector3(0, 1, 0)
+
+    const { shadow } = useShadow({
+        pos: currentPosition,
+        is3dObjIntencity: true,
+    })
 
     const [lastAnim, setLastAnim] = useState('')
     const [isMoving, setIsMoving] = useState(false)
@@ -96,7 +101,7 @@ export const Player = React.memo(() => {
     })
 
     if (!playerModel) {
-        return null
+        return <></>
     }
 
     return (
@@ -107,6 +112,7 @@ export const Player = React.memo(() => {
                 scale={[0.01, 0.01, 0.01]}
                 position={[0, 1, 0]}
             />
+            <ambientLight intensity={shadow as number} />
             <CameraIsometric />
             <ShadowSprite
                 x={currentPosition.x}
@@ -115,4 +121,4 @@ export const Player = React.memo(() => {
             />
         </mesh>
     )
-})
+}

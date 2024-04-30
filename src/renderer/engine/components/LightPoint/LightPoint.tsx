@@ -7,7 +7,7 @@ interface ILightPointProps {
 
 export const LightPoint = memo(({ pos }: ILightPointProps) => {
     return (
-        <mesh position={[pos.x, pos.z, pos.y]} visible={false}>
+        <mesh position={[pos.x, pos.z, pos.y]} visible={true}>
             <boxGeometry args={[1, 1, 1]} />
         </mesh>
     )

@@ -1,7 +1,6 @@
 import { useTexture } from '@react-three/drei'
 import { Vector3 } from 'three'
-import { useMemo } from 'react'
-import { calculateShadowColor } from '@engine/utils/shadow'
+import { memo, useMemo } from 'react'
 import { TILE_WALL_HEIGHT, TILE_WALL_WIDTH } from '@engine/utils/constants'
 
 import tree1_01 from '@assets/textures/tree_01/_tree_01_00000.png'
@@ -12,6 +11,7 @@ import tree1_05 from '@assets/textures/tree_01/_tree_01_40000.png'
 import tree1_06 from '@assets/textures/tree_01/_tree_01_50000.png'
 
 import { randFloat } from 'three/src/math/MathUtils'
+import { useShadow } from '../../hooks/useShadow'
 
 interface ITreeProps {
     pos: Vector3
@@ -31,17 +31,11 @@ const textures: Record<string, string> = {
     },
 }
 
-export const Tree = ({ pos, lightMap, type = 'tree1' }: ITreeProps) => {
-    const rand = +randFloat(0, 1).toFixed(1) * 10
+export const Tree = memo(({ pos, type = 'tree1' }: ITreeProps) => {
+    const rand = useMemo(() => +randFloat(0, 1).toFixed(1) * 10, [])
     const texture = useTexture(textures[type]?.[rand] || textures['tree1']['1'])
 
-    const shadowColor = useMemo(() => {
-        if (!lightMap || !lightMap.length) {
-            return
-        }
-
-        return calculateShadowColor(pos, lightMap)
-    }, [lightMap, pos])
+    const { shadow } = useShadow({ pos })
 
     return (
         <>
@@ -53,8 +47,8 @@ export const Tree = ({ pos, lightMap, type = 'tree1' }: ITreeProps) => {
                     TILE_WALL_WIDTH * 4,
                 ]}
             >
-                <spriteMaterial map={texture} color={shadowColor} />
+                <spriteMaterial map={texture} color={shadow} />
             </sprite>
         </>
     )
-}
+})

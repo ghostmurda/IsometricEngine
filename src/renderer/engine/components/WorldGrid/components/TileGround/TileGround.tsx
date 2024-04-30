@@ -75,6 +75,11 @@ export const TileGround = React.memo(
             }
         }, [playerPos, setInsideCb])
 
+        const handleClick = () => {
+            const clickPos = new Vector3(pos.x, pos.z, pos.y)
+            onClickCallback(clickPos)
+        }
+
         return (
             <sprite
                 position={position}
@@ -83,7 +88,7 @@ export const TileGround = React.memo(
                     TILE_GROUND_HEIGHT,
                     TILE_GROUND_WIDTH,
                 ]}
-                onClick={() => onClickCallback(position)}
+                onClick={handleClick}
             >
                 <spriteMaterial map={texture} color={shadowColor} />
             </sprite>

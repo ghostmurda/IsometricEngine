@@ -7,11 +7,10 @@ import { Vector3 } from 'three'
 interface ITreesChunkProps {
     size?: number
     count?: number
-    lightMap?: Vector3[]
 }
 
 export const TreesChunk = React.memo(
-    ({ size = 50, count = 150, lightMap }: ITreesChunkProps) => {
+    ({ size = 50, count = 150 }: ITreesChunkProps) => {
         const renderTrees = useMemo(
             () =>
                 [...new Array(count)].map((_, i) => {
@@ -19,15 +18,9 @@ export const TreesChunk = React.memo(
                     const z = randFloat(-size, size)
                     const y = 1.7
 
-                    return (
-                        <Tree
-                            key={i}
-                            pos={new Vector3(x, y, z)}
-                            lightMap={lightMap}
-                        />
-                    )
+                    return <Tree key={i} pos={new Vector3(x, y, z)} />
                 }),
-            [size, count, lightMap]
+            [size, count]
         )
 
         return <>{renderTrees}</>
