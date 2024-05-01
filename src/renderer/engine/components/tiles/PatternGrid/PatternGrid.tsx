@@ -3,7 +3,7 @@ import { IWorldMatrix } from './PatternGrid.d'
 
 import housePattern from '@engine/utils/patterns/houseSmall.json'
 
-import { memo, useEffect, useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { TileGround } from '../TileGround'
 import { TileWall } from '../TileWall'
 
@@ -28,15 +28,15 @@ export const PatternGrid = memo(
         //     setIsPatternChanging(true)
         // }
 
-        useEffect(() => {
-            if (isPatternChanging) {
-                const reset = setTimeout(() => {
-                    setIsPatternChanging(false)
-                }, 500)
+        // useEffect(() => {
+        //     if (isPatternChanging) {
+        //         const reset = setTimeout(() => {
+        //             setIsPatternChanging(false)
+        //         }, 500)
 
-                return () => clearTimeout(reset)
-            }
-        }, [isPatternChanging])
+        //         return () => clearTimeout(reset)
+        //     }
+        // }, [isPatternChanging])
 
         const renderLevelTiles = (matrix: IWorldMatrix, _z: string) => {
             const renderTiles = Object.keys(matrix).map((row: string) => {

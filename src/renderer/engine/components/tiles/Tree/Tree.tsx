@@ -1,6 +1,6 @@
 import { useTexture } from '@react-three/drei'
 import { Vector3 } from 'three'
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useRef } from 'react'
 import { TILE_WALL_HEIGHT, TILE_WALL_WIDTH } from '@engine/utils/constants'
 
 import tree1_01 from '@assets/textures/tree_01/_tree_01_00000.png'
@@ -11,12 +11,14 @@ import tree1_05 from '@assets/textures/tree_01/_tree_01_40000.png'
 import tree1_06 from '@assets/textures/tree_01/_tree_01_50000.png'
 
 import { randFloat } from 'three/src/math/MathUtils'
-import { useShadow } from '../../../hooks/useShadow'
+import { calculateShadowColor } from '@engine/utils/shadow'
+import { useCheckVisinility } from 'src/renderer/engine/hooks/useCheckVisibility'
 
 interface ITreeProps {
     pos: Vector3
-    lightMap?: Vector3[]
+    lightMap: Vector3[]
     type?: string
+    playerPosRef?: React.MutableRefObject<Vector3>
 }
 
 const textures: Record<string, string> = {
@@ -31,24 +33,40 @@ const textures: Record<string, string> = {
     },
 }
 
-export const Tree = memo(({ pos, type = 'tree1' }: ITreeProps) => {
-    const rand = useMemo(() => +randFloat(0, 1).toFixed(1) * 10, [])
-    const texture = useTexture(textures[type]?.[rand] || textures['tree1']['1'])
+export const Tree = memo(
+    ({ pos, type = 'tree1', lightMap, playerPosRef }: ITreeProps) => {
+        const rand = useMemo(() => +randFloat(0, 1).toFixed(1) * 10, [])
+        const texture = useTexture(
+            textures[type]?.[rand] || textures['tree1']['1']
+        )
+        const shadowColor = useRef()
+        const { isVisible } = useCheckVisinility({
+            pos: new Vector3(pos.x, pos.z, pos.y),
+            playerPosRef,
+        })
 
-    const { shadow } = useShadow({ pos })
+        if (!isVisible) {
+            return <></>
+        }
 
-    return (
-        <>
-            <sprite
-                position={pos}
-                scale={[
-                    TILE_WALL_WIDTH * 4,
-                    TILE_WALL_HEIGHT * 6,
-                    TILE_WALL_WIDTH * 4,
-                ]}
-            >
-                <spriteMaterial map={texture} color={shadow} />
-            </sprite>
-        </>
-    )
-})
+        if (!shadowColor.current && lightMap) {
+            //@ts-ignore
+            shadowColor.current = calculateShadowColor(pos, lightMap)
+        }
+
+        return (
+            <>
+                <sprite
+                    position={pos}
+                    scale={[
+                        TILE_WALL_WIDTH * 4,
+                        TILE_WALL_HEIGHT * 6,
+                        TILE_WALL_WIDTH * 4,
+                    ]}
+                >
+                    <spriteMaterial map={texture} color={shadowColor.current} />
+                </sprite>
+            </>
+        )
+    }
+)

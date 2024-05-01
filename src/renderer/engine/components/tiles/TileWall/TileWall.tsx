@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
 import { useTexture } from '@react-three/drei'
-import { ITileWallProps, ITileTypes } from './TileWall'
+import { ITileWallProps, ITileTypes } from './TileWall.d'
 import brickWall1 from '@assets/tiles/walls/brickWall1.png'
 import castleWall1 from '@assets/tiles/walls/castleWall1.png'
 import {
@@ -8,10 +8,10 @@ import {
     TILE_WALL_WIDTH,
     TILE_WALL_Z_HEIGHT,
 } from '@engine/utils/constants'
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useRef } from 'react'
 import { Vector3 } from 'three'
-import { checkIsPlayerInside } from '@engine/utils/checkIsPlayerInside'
 import { calculateShadowColor } from '@engine/utils/shadow'
+import { useCheckVisinility } from 'src/renderer/engine/hooks/useCheckVisibility'
 
 const tileTypes: ITileTypes = {
     5: brickWall1,
@@ -19,54 +19,25 @@ const tileTypes: ITileTypes = {
 }
 
 export const TileWall = React.memo(
-    ({
-        pos,
-        type,
-        isPatternChanging,
-        setInsideCb,
-        setOutsideCb,
-        playerPos: _playerPos,
-        lightMap,
-    }: ITileWallProps) => {
+    ({ pos, type, lightMap, playerPosRef }: ITileWallProps) => {
         const texture = useTexture(tileTypes[type])
+        const shadowColor = useRef()
+        const { isVisible } = useCheckVisinility({ pos, playerPosRef })
+
+        if (!isVisible) {
+            return <></>
+        }
+
         const calculatedZ =
             pos.z === 1 ? TILE_WALL_Z_HEIGHT : pos.z - 1 + TILE_WALL_Z_HEIGHT
         const position = new Vector3(pos.x, calculatedZ, pos.y)
 
-        const playerPos = useMemo(() => {
-            if (!_playerPos) {
-                return
-            }
+        if (!shadowColor.current && lightMap) {
+            //@ts-ignore
+            shadowColor.current = calculateShadowColor(pos, lightMap)
+        }
 
-            return new Vector3(_playerPos.x, _playerPos.y, _playerPos.z)
-        }, [_playerPos])
-
-        const shadowColor = useMemo(() => {
-            if (!lightMap || !lightMap.length) {
-                return
-            }
-
-            return calculateShadowColor(pos, lightMap)
-        }, [lightMap, pos])
-
-        const checkDistanceToPlayer = useCallback(() => {
-            if (playerPos && setInsideCb && setOutsideCb) {
-                checkIsPlayerInside({
-                    playerPos,
-                    x: pos.x,
-                    z: pos.z,
-                    isPatternChanging,
-                    setInsideCb,
-                    setOutsideCb,
-                })
-            }
-        }, [playerPos, setInsideCb, setOutsideCb])
-
-        useEffect(() => {
-            if (playerPos && setInsideCb) {
-                checkDistanceToPlayer()
-            }
-        }, [playerPos, setInsideCb])
+        console.log('render tile ' + type)
 
         return (
             <>
@@ -78,7 +49,7 @@ export const TileWall = React.memo(
                     position={position}
                     scale={[TILE_WALL_WIDTH, TILE_WALL_HEIGHT, TILE_WALL_WIDTH]}
                 >
-                    <spriteMaterial map={texture} color={shadowColor} />
+                    <spriteMaterial map={texture} color={shadowColor.current} />
                 </sprite>
             </>
         )

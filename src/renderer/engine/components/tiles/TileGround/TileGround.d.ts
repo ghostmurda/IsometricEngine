@@ -5,11 +5,8 @@ export interface ITileGroundProps {
     pos: Vector3
     type: number
     onClickCallback: (newPos: Vector3) => void
-    setInsideCb?: () => void
-    setOutsideCb?: () => void
-    isPatternChanging?: boolean
-    playerPos?: Vector3
     lightMap?: Vector3[]
+    playerPosRef?: React.MutableRefObject<Vector3>
 }
 
 export interface ITileTypes {

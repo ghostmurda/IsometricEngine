@@ -1,17 +1,24 @@
 import { AppContext } from '@context/AppContext'
 import { calc3dObjLightIntc, calculateShadowColor } from '@engine/utils/shadow'
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { Vector3 } from 'three'
 
 interface Props {
     pos?: Vector3
     is3dObjIntencity?: boolean
+    log?: boolean
 }
 
-export const useShadow = ({ pos, is3dObjIntencity }: Props) => {
-    const { lightMap } = useContext(AppContext)
+export const useShadow = ({ pos, is3dObjIntencity, log }: Props) => {
+    const { currentLightMap: _lightMap } = useContext(AppContext)
+    const lightMap = useMemo(() => {
+        log && console.log('lightMap', _lightMap)
 
-    const shadow = (() => {
+        return _lightMap
+    }, [_lightMap])
+
+    const shadow = useMemo(() => {
+        log && console.log('shadow calculating')
         if (!lightMap || !lightMap.length || !pos) {
             return
         }
@@ -28,7 +35,7 @@ export const useShadow = ({ pos, is3dObjIntencity }: Props) => {
         }
 
         return calc3dObjLightIntc(shadowColor)
-    })()
+    }, [pos])
 
     return { shadow }
 }

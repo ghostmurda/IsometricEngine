@@ -2,11 +2,8 @@ import React, { useMemo } from 'react'
 import { Vector3 } from 'three'
 import { TileGround } from '../TileGround'
 import { TileWall } from '../TileWall'
-
-const SIZE_WIDTH = 60
-const SIZE_HEIGHT = 60
-const DEFAULT_TILE = 0
-const z = 0
+import { CHUNK_SIZE } from '@engine/utils/constants'
+import { generatePlane } from '@engine/utils/generatePlane'
 
 interface ITerrainGridProps {
     lightMap?: Vector3[]
@@ -16,15 +13,7 @@ interface ITerrainGridProps {
 export const TerrainGrid = React.memo(
     ({ lightMap, handleClickPosition }: ITerrainGridProps) => {
         const renderTiles = useMemo(() => {
-            const planeData = {} as Record<string, number[]>
-
-            for (let i = 0; i < SIZE_HEIGHT; i++) {
-                const levelArr = []
-                for (let j = 0; j < SIZE_WIDTH; j++) {
-                    levelArr.push(DEFAULT_TILE)
-                }
-                planeData[i.toString()] = levelArr
-            }
+            const planeData = generatePlane(CHUNK_SIZE)
 
             return Object.keys(planeData).map((row: string) => {
                 return planeData[row].map((tileType, col) => {
@@ -34,6 +23,7 @@ export const TerrainGrid = React.memo(
 
                     const x = col
                     const y = +row
+                    const z = 0
                     const pos = new Vector3(x, y, z)
                     const key =
                         tileType.toString() +

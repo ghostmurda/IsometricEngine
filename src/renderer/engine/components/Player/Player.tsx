@@ -10,9 +10,10 @@ import { useShadow } from '../../hooks/useShadow'
 
 const LERP_DIFFERENCE_ERROR = 0.1
 const SPEED = 350
+const SCALE = [0.01, 0.01, 0.01]
 
 export const Player = () => {
-    const { setPlayerPos, clickPos } = useContext(AppContext)
+    const { setPlayerPos, playerPos, clickPos } = useContext(AppContext)
     const playerModel = useGLTF(
         paladinModel,
         'https://www.gstatic.com/draco/versioned/decoders/1.4.0/'
@@ -26,7 +27,7 @@ export const Player = () => {
     const currentPosition = playerRef.current?.position || new Vector3(0, 1, 0)
 
     const { shadow } = useShadow({
-        pos: currentPosition,
+        pos: playerPos,
         is3dObjIntencity: true,
     })
 
@@ -109,16 +110,12 @@ export const Player = () => {
             <primitive
                 object={(playerModel as any)?.scene}
                 ref={playerModelRef}
-                scale={[0.01, 0.01, 0.01]}
+                scale={SCALE}
                 position={[0, 1, 0]}
             />
             <ambientLight intensity={shadow as number} />
+            <ShadowSprite pos={playerPos} />
             <CameraIsometric />
-            <ShadowSprite
-                x={currentPosition.x}
-                y={currentPosition.y + 1}
-                z={currentPosition.z}
-            />
         </mesh>
     )
 }

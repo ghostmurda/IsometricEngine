@@ -9,6 +9,7 @@ Current features:
 <li>2d world tiles generating based on matrix of tile types numbers</li>
 <li>sprites as world tiles</li>
 <li>static lightmap</li>
+<li>chunks loading/unloading</li>
 </ul>
 
 <br>
@@ -56,6 +57,7 @@ npm run package
 ## Patch notes
 
 ```bash
+01.05.2024 - chunks system, dynamic chunk loading / cleanup
 30.04.2024 - static lightmap, tree sprites, shadow color calculating
 22.04.2024 - rendering optimization, light system prototype
 ```

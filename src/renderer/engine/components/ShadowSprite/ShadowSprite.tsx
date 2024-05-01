@@ -5,15 +5,18 @@ import { memo } from 'react'
 import { useLoader } from '@react-three/fiber'
 
 interface IShadowSpriteProps {
-    x: number
-    y: number
-    z: number
+    pos?: Vector3
     scale?: Vector3
 }
 
-export const ShadowSprite = ({ x, y, z, scale }: IShadowSpriteProps) => {
+export const ShadowSprite = ({ pos: _pos, scale }: IShadowSpriteProps) => {
     const texture = useLoader(TextureLoader, shadowTexture)
-    const pos = new Vector3(x + 0.1, y, z + 0.1)
+
+    if (!_pos) {
+        return <></>
+    }
+
+    const pos = new Vector3(_pos.x + 0.1, _pos.y, _pos.z + 0.1)
         .normalize()
         .multiply(new Vector3(0, 1, 0))
 

@@ -5,11 +5,11 @@ import constants from '../../globalConstants.json'
 export interface IAppContextProps {
     playerPos?: Vector3
     clickPos?: Vector3
-    worldSeed?: number
-    lightMap?: Vector3[]
+    currentLightMap?: Vector3[]
+    playerPosRef?: React.MutableRefObject<Vector3>
     setClickPos?: React.Dispatch<React.SetStateAction<Vector3 | undefined>>
-    setPlayerPos?: React.Dispatch<React.SetStateAction<Vector3 | undefined>>
-    setWorldSeed?: React.Dispatch<React.SetStateAction<number | undefined>>
+    setPlayerPos?: React.Dispatch<React.SetStateAction<Vector3>>
+    setCurrentLightMap?: React.Dispatch<React.SetStateAction<undefined>>
 }
 
 export const AppContext = createContext<IAppContextProps>({
@@ -18,5 +18,4 @@ export const AppContext = createContext<IAppContextProps>({
         constants.spawnPos.y,
         constants.spawnPos.z
     ),
-    worldSeed: new Date().getUTCMinutes(),
 })

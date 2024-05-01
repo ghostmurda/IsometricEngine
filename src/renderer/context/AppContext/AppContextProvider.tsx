@@ -1,27 +1,26 @@
-import { PropsWithChildren, useLayoutEffect, useMemo, useState } from 'react'
+import { PropsWithChildren, useEffect, useMemo, useRef, useState } from 'react'
 import { AppContext } from './AppContext'
 import { Vector3 } from 'three'
-import { LIGHT_MAP } from '@assets/locations'
 
 export const AppContextProvider = ({ children }: PropsWithChildren) => {
     const [clickPos, setClickPos] = useState<Vector3>()
-    const [playerPos, setPlayerPos] = useState<Vector3>()
-    const [lightMap, setLightMap] = useState<Vector3[]>(LIGHT_MAP)
-    // const [worldSeed, setWorldSeed] = useState<number>()
+    const [playerPos, setPlayerPos] = useState<Vector3>(new Vector3(0, 1, 0))
+    const [currentLightMap, setCurrentLightMap] = useState()
+    const playerPosRef = useRef(playerPos)
 
-    // useLayoutEffect(() => {
-    //     if (!worldSeed) {
-    //         setWorldSeed(new Date().getUTCMinutes())
-    //     }
-    // }, [worldSeed])
+    useEffect(() => {
+        playerPosRef.current = playerPos
+    }, [playerPos])
 
     const value = useMemo(() => {
         return {
             playerPos,
+            playerPosRef,
             clickPos,
-            lightMap,
+            currentLightMap,
             setClickPos,
             setPlayerPos,
+            setCurrentLightMap,
         }
     }, [clickPos])
 
