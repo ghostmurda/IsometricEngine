@@ -3,12 +3,10 @@
 Current features:
 
 <ul>
-<li>player movement on click</li>
-<li>player as 3d model with animations</li>
+<li>movement on click</li>
+<li>3d models with animations</li>
 <li>custom light system</li>
-<li>2d world tiles generating based on matrix of tile types numbers</li>
-<li>sprites as world tiles</li>
-<li>static lightmap</li>
+<li>2d tiles generating system</li>
 <li>optimized chunk system</li>
 </ul>
 
@@ -17,9 +15,10 @@ Current features:
 TODO:
 
 <ul>
-<li>movement on tiles with A* </li>
-<li>map generating from file</li>
-<li>placing blocks on map and saving map</li>
+<li>terrain landscape</li>
+<li>map saving and loading</li>
+<li>movement with A* </li>
+<li>placing blocks</li>
 <li>static npc</li>
 <li>hostile npc, battle system</li>
 </ul>
@@ -56,7 +55,7 @@ npm run package
 ## Patch notes
 
 ```bash
-01.05.2024 - chunks system, dynamic chunk loading / cleanup
+01.05.2024 - chunk system, dynamic chunk loading / cleanup
 30.04.2024 - static lightmap, tree sprites, shadow color calculating
 22.04.2024 - rendering optimization, light system prototype
 ```
