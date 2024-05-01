@@ -94,6 +94,19 @@ export const ChunksController = () => {
                     playerPosZ - (+upperChunkId[1] * CHUNK_SIZE + CHUNK_SIZE) <=
                         VIEW_DISTANCE)
 
+            if (isRightChunkNear && currentChunks.includes(rightChunkId)) {
+                return
+            }
+            if (isLeftChunkNear && currentChunks.includes(leftChunkId)) {
+                return
+            }
+            if (isBottomChunkNear && currentChunks.includes(bottomChunkId)) {
+                return
+            }
+            if (isUpperChunkNear && currentChunks.includes(upperChunkId)) {
+                return
+            }
+
             if (
                 !!chunks.find((el) => el === rightChunkId) &&
                 !isRightChunkNear
@@ -142,11 +155,9 @@ export const ChunksController = () => {
 
             const newChunks = [...new Set(chunks)]
 
-            if (isEqual(currentChunks, newChunks)) {
-                return
+            if (!isEqual(currentChunks, newChunks)) {
+                setCurrentChunks(newChunks)
             }
-
-            setCurrentChunks(newChunks)
         }
     }, [playerPos])
 

@@ -10,7 +10,6 @@ interface ITreesChunkProps {
     count?: number
     worldPosX: number
     worldPosZ: number
-    lightMap: Vector3[]
     playerPosRef?: React.MutableRefObject<Vector3>
 }
 
@@ -19,12 +18,8 @@ export const TreesGrid = ({
     count = 150,
     worldPosX,
     worldPosZ,
-    lightMap,
     playerPosRef,
 }: ITreesChunkProps) => {
-    console.log('worldPosX trees', worldPosX)
-    console.log('worldPosZ trees', worldPosZ)
-
     const renderTrees = useMemo(
         () =>
             [...new Array(count)].map((_, i) => {
@@ -38,7 +33,6 @@ export const TreesGrid = ({
                     <Tree
                         key={`${worldPosX}${worldPosZ} n${i}`}
                         pos={pos}
-                        lightMap={lightMap}
                         playerPosRef={playerPosRef}
                     />
                 )

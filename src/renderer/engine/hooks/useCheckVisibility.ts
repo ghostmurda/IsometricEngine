@@ -17,13 +17,9 @@ export const useCheckVisinility = ({ pos, playerPosRef }: Props) => {
                 playerPosRef?.current as Vector3
             )
 
-            if (distance > VIEW_DISTANCE * 1.5) {
-                return
-            }
+            const _isVisible = distance <= VIEW_DISTANCE
 
-            const isVisible = distance <= VIEW_DISTANCE
-
-            isVisible && setIsVisible(isVisible)
+            setIsVisible(_isVisible)
         }
         checkVisibility()
 

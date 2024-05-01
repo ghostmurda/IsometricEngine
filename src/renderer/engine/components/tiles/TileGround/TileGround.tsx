@@ -55,7 +55,7 @@ export const TileGround = React.memo(
             onClickCallback(clickPos)
         }
 
-        console.log('render tile ' + type)
+        console.log('render tile type=' + type)
 
         return (
             <sprite
@@ -69,7 +69,7 @@ export const TileGround = React.memo(
                 receiveShadow
             >
                 <spriteMaterial
-                    map={texture}
+                    map={texture.clone()}
                     toneMapped={false}
                     color={shadowColor.current}
                 />

@@ -37,7 +37,7 @@ export const TileWall = React.memo(
             shadowColor.current = calculateShadowColor(pos, lightMap)
         }
 
-        console.log('render tile ' + type)
+        console.log('render tile type=' + type)
 
         return (
             <>
@@ -49,7 +49,10 @@ export const TileWall = React.memo(
                     position={position}
                     scale={[TILE_WALL_WIDTH, TILE_WALL_HEIGHT, TILE_WALL_WIDTH]}
                 >
-                    <spriteMaterial map={texture} color={shadowColor.current} />
+                    <spriteMaterial
+                        map={texture.clone()}
+                        color={shadowColor.current}
+                    />
                 </sprite>
             </>
         )

@@ -90,7 +90,6 @@ export const ChunkRenderer = memo(
                     count={32}
                     worldPosX={CHUNK_SIZE * worldPosX}
                     worldPosZ={CHUNK_SIZE * worldPosZ}
-                    lightMap={lightMap}
                     playerPosRef={playerPosRef}
                 />
             </>

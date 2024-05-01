@@ -1,6 +1,6 @@
 import { useTexture } from '@react-three/drei'
 import { Vector3 } from 'three'
-import { memo, useMemo, useRef } from 'react'
+import { memo, useMemo } from 'react'
 import { TILE_WALL_HEIGHT, TILE_WALL_WIDTH } from '@engine/utils/constants'
 
 import tree1_01 from '@assets/textures/tree_01/_tree_01_00000.png'
@@ -11,12 +11,11 @@ import tree1_05 from '@assets/textures/tree_01/_tree_01_40000.png'
 import tree1_06 from '@assets/textures/tree_01/_tree_01_50000.png'
 
 import { randFloat } from 'three/src/math/MathUtils'
-import { calculateShadowColor } from '@engine/utils/shadow'
 import { useCheckVisinility } from 'src/renderer/engine/hooks/useCheckVisibility'
+import { useShadow } from 'src/renderer/engine/hooks/useShadow'
 
 interface ITreeProps {
     pos: Vector3
-    lightMap: Vector3[]
     type?: string
     playerPosRef?: React.MutableRefObject<Vector3>
 }
@@ -34,24 +33,23 @@ const textures: Record<string, string> = {
 }
 
 export const Tree = memo(
-    ({ pos, type = 'tree1', lightMap, playerPosRef }: ITreeProps) => {
+    ({ pos, type = 'tree1', playerPosRef }: ITreeProps) => {
         const rand = useMemo(() => +randFloat(0, 1).toFixed(1) * 10, [])
         const texture = useTexture(
             textures[type]?.[rand] || textures['tree1']['1']
         )
-        const shadowColor = useRef()
+        const transformToTilesPos = new Vector3(pos.x, pos.z, pos.y)
+        const { shadow } = useShadow({
+            pos,
+        })
+
         const { isVisible } = useCheckVisinility({
-            pos: new Vector3(pos.x, pos.z, pos.y),
+            pos: transformToTilesPos,
             playerPosRef,
         })
 
         if (!isVisible) {
             return <></>
-        }
-
-        if (!shadowColor.current && lightMap) {
-            //@ts-ignore
-            shadowColor.current = calculateShadowColor(pos, lightMap)
         }
 
         return (
@@ -64,7 +62,7 @@ export const Tree = memo(
                         TILE_WALL_WIDTH * 4,
                     ]}
                 >
-                    <spriteMaterial map={texture} color={shadowColor.current} />
+                    <spriteMaterial map={texture.clone()} color={shadow} />
                 </sprite>
             </>
         )
