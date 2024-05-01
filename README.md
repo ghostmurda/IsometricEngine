@@ -9,7 +9,7 @@ Current features:
 <li>2d world tiles generating based on matrix of tile types numbers</li>
 <li>sprites as world tiles</li>
 <li>static lightmap</li>
-<li>chunks loading/unloading</li>
+<li>optimized chunk system</li>
 </ul>
 
 <br>
@@ -17,7 +17,6 @@ Current features:
 TODO:
 
 <ul>
-<li>dynamic lighmap or only one dynamic light point calculating</li>
 <li>movement on tiles with A* </li>
 <li>map generating from file</li>
 <li>placing blocks on map and saving map</li>
