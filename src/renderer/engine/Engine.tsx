@@ -6,8 +6,8 @@ export const Engine = () => {
         <>
             <Player />
             <ChunksController />
-            <directionalLight intensity={0.1} />
-            <fogExp2 attach="fog" color="black" density={0.03} />
+            <directionalLight intensity={0.4} />
+            {/* <fogExp2 attach="fog" color="black" density={0.03} /> */}
         </>
     )
 }

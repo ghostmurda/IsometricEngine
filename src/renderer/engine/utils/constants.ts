@@ -12,3 +12,5 @@ export const TILE_WEAK_SHADOW_COLOR = '#9c9998'
 
 export const CHUNK_SIZE = 64
 export const VIEW_DISTANCE = 28
+
+export const ANIMATION_TRANSITION = 0.25

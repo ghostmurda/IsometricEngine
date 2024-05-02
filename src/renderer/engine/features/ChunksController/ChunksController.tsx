@@ -1,7 +1,7 @@
 import { AppContext } from '@context/AppContext'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { TChunksMap, TLightMapChunk } from './types'
-import { generatePlane } from '@engine/utils/generatePlane'
+import { generatePlane } from '@engine/utils/worldGeneration/generatePlane'
 import { CHUNK_SIZE, VIEW_DISTANCE } from '@engine/utils/constants'
 import { Vector3 } from 'three'
 import { ChunkRenderer } from './components'

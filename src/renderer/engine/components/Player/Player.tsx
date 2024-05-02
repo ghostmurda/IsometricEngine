@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber'
-import { memo, useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Vector3, Mesh } from 'three'
 import { useAnimations, useGLTF } from '@react-three/drei'
 import { CameraIsometric } from '../Camera'
@@ -7,6 +7,7 @@ import paladinModel from '../../../../../assets/models/knight.gltf'
 import { ShadowSprite } from '../ShadowSprite'
 import { AppContext } from '@context/AppContext'
 import { useShadow } from '../../hooks/useShadow'
+import { ANIMATION_TRANSITION } from '@engine/utils/constants'
 
 const LERP_DIFFERENCE_ERROR = 0.1
 const SPEED = 350
@@ -36,10 +37,10 @@ export const Player = () => {
 
     const setAnim = (animName: string) => {
         if (lastAnim !== animName) {
-            actions[lastAnim]?.fadeOut(0.25)
+            actions[lastAnim]?.fadeOut(ANIMATION_TRANSITION)
 
             actions[animName]?.reset()
-            actions[animName]?.fadeIn(0.25)
+            actions[animName]?.fadeIn(ANIMATION_TRANSITION)
             actions[animName]?.play()
 
             setLastAnim(animName)

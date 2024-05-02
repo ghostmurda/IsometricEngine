@@ -3,7 +3,7 @@ import { Vector3 } from 'three'
 import { TileGround } from '../TileGround'
 import { TileWall } from '../TileWall'
 import { CHUNK_SIZE } from '@engine/utils/constants'
-import { generatePlane } from '@engine/utils/generatePlane'
+import { generatePlane } from '@engine/utils/worldGeneration/generatePlane'
 
 interface ITerrainGridProps {
     lightMap?: Vector3[]
