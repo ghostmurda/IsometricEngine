@@ -27,11 +27,15 @@ TODO:
 
 ## Install
 
+<b>Require Node.js v21+</b>
+
 Clone the repo and install dependencies:
 
 ```bash
 git clone --depth 1 --branch master https://github.com/ghostmurda/IsometricEngine.git
+```
 
+```bash
 npm install
 ```
 
