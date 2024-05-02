@@ -30,6 +30,8 @@ TODO:
 Clone the repo and install dependencies:
 
 ```bash
+git clone --depth 1 --branch master https://github.com/ghostmurda/IsometricEngine.git
+
 npm install
 ```
 
