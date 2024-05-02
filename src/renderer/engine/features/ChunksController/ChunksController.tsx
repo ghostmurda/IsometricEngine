@@ -167,18 +167,19 @@ export const ChunksController = () => {
                 const chunkX = +curValue[0] * CHUNK_SIZE
                 const chunkZ = +curValue[1] * CHUNK_SIZE
 
+                let value =
+                    lightMapChunks[curValue] ??
+                    createLightPoints(chunkX, chunkZ)
+
                 return {
                     ...prevValue,
-                    [curValue]: createLightPoints(chunkX, chunkZ),
+                    [curValue]: value,
                 }
             },
             {}
         )
 
-        if (
-            !Object.keys(newLightMapChunks) ||
-            isEqual(lightMapChunks, newLightMapChunks)
-        ) {
+        if (isEqual(lightMapChunks, newLightMapChunks)) {
             return
         }
 
