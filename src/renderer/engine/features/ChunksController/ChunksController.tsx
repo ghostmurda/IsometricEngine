@@ -1,23 +1,15 @@
 import { AppContext } from '@context/AppContext'
 import { useContext, useEffect, useState } from 'react'
 import { TChunksMap, TLightMapChunk } from './types'
-import { generatePlane } from '@engine/utils/worldGeneration/generatePlane'
 import { CHUNK_SIZE, VIEW_DISTANCE } from '@engine/utils/constants'
 import { Vector3 } from 'three'
 import { randFloat } from 'three/src/math/MathUtils'
 import isEqual from 'lodash/isEqual'
 import { ChunkRenderer } from '@engine/components/ChunkRenderer'
-
-const DEFAULT_TILE_CHUNK = {
-    '0': generatePlane(CHUNK_SIZE),
-    '1': { '0': [5, 5, 5] },
-    '2': { '0': [5, 5, 5] },
-}
+import { generatePlaneLandscape } from '@engine/utils/worldGeneration/generatePlaneLandscape'
 
 const DEFAULT_TILE_CHUNKS_MAP: TChunksMap = {
-    '00': DEFAULT_TILE_CHUNK,
-    '01': DEFAULT_TILE_CHUNK,
-    '10': DEFAULT_TILE_CHUNK,
+    '00': generatePlaneLandscape(0, 0),
 }
 
 const createLightPoints = (chunkX: number, chunkZ: number) => {
@@ -203,8 +195,12 @@ export const ChunksController = () => {
             return <></>
         }
 
-        return currentChunks.map((curChunkId, i) => {
-            const chunk = tileChunksMap[curChunkId] ?? DEFAULT_TILE_CHUNK
+        return currentChunks.map((curChunkId) => {
+            const newChunkData = generatePlaneLandscape(
+                +curChunkId[0],
+                +curChunkId[1]
+            )
+            const chunk = tileChunksMap[curChunkId] ?? newChunkData
             const lightMap = lightMapChunks[curChunkId]
 
             if (!lightMap) {
@@ -214,7 +210,7 @@ export const ChunksController = () => {
             if (!tileChunksMap[curChunkId]) {
                 setTileChunksMap((prev) => ({
                     ...prev,
-                    [curChunkId]: DEFAULT_TILE_CHUNK,
+                    [curChunkId]: newChunkData,
                 }))
             }
 

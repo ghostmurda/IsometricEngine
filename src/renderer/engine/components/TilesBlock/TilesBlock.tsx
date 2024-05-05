@@ -32,7 +32,12 @@ export const TilesBlock = memo(
             return <></>
         }
 
-        const renderLevelTiles = (matrix: number[][], _z: string) => {
+        const renderLevelTiles = (
+            _matrix: Record<string, number[][]>,
+            _z: number
+        ) => {
+            const matrix = _matrix[_z]
+
             const renderTiles = matrix.map((row, rowIndex) => {
                 return row.map((tileType, col) => {
                     if (tileType === -1) {
@@ -41,15 +46,39 @@ export const TilesBlock = memo(
 
                     const x = rowIndex + _pos.x
                     const y = col + _pos.z
-                    const z = +_z
 
-                    const pos = new Vector3(x, y, z)
+                    const pos = new Vector3(x, y, _z)
                     const key =
                         tileType.toString() +
                         x.toString() +
                         y.toString() +
-                        z.toString()
+                        _z.toString()
                     const shadowColor = calculateShadowColor(pos, lightMap)
+
+                    if (_matrix?.[_z + 1]?.[rowIndex]?.[col] === 7) {
+                        if (
+                            (_z === 0 || _z === 1) &&
+                            (_matrix?.[_z + 1]?.[rowIndex + 1]?.[col] ===
+                                undefined ||
+                                _matrix?.[_z + 1]?.[rowIndex - 1]?.[col] ===
+                                    undefined ||
+                                _matrix?.[_z + 1]?.[rowIndex]?.[col + 1] ===
+                                    undefined ||
+                                _matrix?.[_z + 1]?.[rowIndex]?.[col - 1] ===
+                                    undefined)
+                        ) {
+                            return (
+                                <TileWall
+                                    key={key}
+                                    pos={pos}
+                                    type={7}
+                                    shadowColor={shadowColor}
+                                />
+                            )
+                        }
+
+                        return <></>
+                    }
 
                     if (tileType < 5) {
                         return (
@@ -78,7 +107,7 @@ export const TilesBlock = memo(
         }
 
         const renderAllLevels = Object.keys(tilesMatrix).map((level) => {
-            return renderLevelTiles(tilesMatrix[level], level)
+            return renderLevelTiles(tilesMatrix, +level)
         })
 
         return (

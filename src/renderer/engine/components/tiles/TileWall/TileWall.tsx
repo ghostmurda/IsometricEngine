@@ -3,6 +3,7 @@ import { useTexture } from '@react-three/drei'
 import { ITileWallProps, ITileTypes } from './TileWall.d'
 import brickWall1 from '@assets/tiles/walls/brickWall1.png'
 import castleWall1 from '@assets/tiles/walls/castleWall1.png'
+import dirtWall1 from '@assets/tiles/walls/dirtWall1.png'
 import {
     TILE_WALL_HEIGHT,
     TILE_WALL_WIDTH,
@@ -14,6 +15,7 @@ import { Vector3 } from 'three'
 const tileTypes: ITileTypes = {
     5: brickWall1,
     6: castleWall1,
+    7: dirtWall1,
 }
 
 export const TileWall = React.memo(
