@@ -1,11 +1,8 @@
 import { AppContext } from '@context/AppContext'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { TChunksMap, TLightMapChunk } from './types'
 import { generatePlane } from '@engine/utils/worldGeneration/generatePlane'
-import {
-    CHUNK_SIZE,
-    VIEW_DISTANCE as _VIEW_DISTANCE,
-} from '@engine/utils/constants'
+import { CHUNK_SIZE, VIEW_DISTANCE } from '@engine/utils/constants'
 import { Vector3 } from 'three'
 import { randFloat } from 'three/src/math/MathUtils'
 import isEqual from 'lodash/isEqual'
@@ -53,13 +50,8 @@ const DEFAULT_LIGHMAP_CHUNKS: TLightMapChunk = {
 }
 
 export const ChunksController = () => {
-    const {
-        playerPos,
-        playerPosRef,
-        currentLightMap,
-        setCurrentLightMap,
-        setClickPos,
-    } = useContext(AppContext)
+    const { playerPos, currentLightMap, setCurrentLightMap, setClickPos } =
+        useContext(AppContext)
     const [tileChunksMap, setTileChunksMap] = useState<TChunksMap>(
         DEFAULT_TILE_CHUNKS_MAP
     )
@@ -82,8 +74,6 @@ export const ChunksController = () => {
             const leftChunkId = `${playerWorldPosX - 1}${playerWorldPosZ}`
             const bottomChunkId = `${playerWorldPosX}${playerWorldPosZ + 1}`
             const upperChunkId = `${playerWorldPosX}${playerWorldPosZ - 1}`
-
-            const VIEW_DISTANCE = _VIEW_DISTANCE / 2
 
             const isRightChunkNear =
                 +rightChunkId[0] * CHUNK_SIZE - playerPosX <= VIEW_DISTANCE ||
@@ -116,19 +106,6 @@ export const ChunksController = () => {
                     playerPosZ -
                         (+upperChunkId[1] * CHUNK_SIZE + CHUNK_SIZE / 2) <=
                         VIEW_DISTANCE)
-
-            // if (isRightChunkNear && currentChunks.includes(rightChunkId)) {
-            //     return
-            // }
-            // if (isLeftChunkNear && currentChunks.includes(leftChunkId)) {
-            //     return
-            // }
-            // if (isBottomChunkNear && currentChunks.includes(bottomChunkId)) {
-            //     return
-            // }
-            // if (isUpperChunkNear && currentChunks.includes(upperChunkId)) {
-            //     return
-            // }
 
             if (
                 !!chunks.find((el) => el === rightChunkId) &&
@@ -221,12 +198,12 @@ export const ChunksController = () => {
         }
     }, [lightMapChunks])
 
-    const renderChunks = useMemo(() => {
+    const renderChunks = (() => {
         if (!Object.keys(lightMapChunks).length) {
             return <></>
         }
 
-        return currentChunks.map((curChunkId) => {
+        return currentChunks.map((curChunkId, i) => {
             const chunk = tileChunksMap[curChunkId] ?? DEFAULT_TILE_CHUNK
             const lightMap = lightMapChunks[curChunkId]
 
@@ -248,11 +225,11 @@ export const ChunksController = () => {
                     worldPos={curChunkId}
                     key={curChunkId}
                     setClickPos={setClickPos}
-                    playerPosRef={playerPosRef}
+                    playerPos={playerPos}
                 />
             )
         })
-    }, [lightMapChunks])
+    })()
 
     return <>{renderChunks}</>
 }

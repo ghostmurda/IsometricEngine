@@ -11,21 +11,21 @@ interface Props {
     pos: Vector3
     onClickCallback: (newPos: Vector3) => void
     lightMap: Vector3[]
-    playerPosRef?: React.MutableRefObject<Vector3>
+    playerPos: Vector3
     tilesMatrix: Record<string, number[][]>
 }
 
 export const TilesBlock = memo(
     ({
         pos: _pos,
-        playerPosRef,
+        playerPos,
         tilesMatrix,
         lightMap,
         onClickCallback,
     }: Props) => {
         const { isVisible } = useCheckVisinility({
             pos: new Vector3(_pos.x, _pos.z, _pos.y),
-            playerPosRef,
+            playerPos,
         })
 
         if (!isVisible) {
