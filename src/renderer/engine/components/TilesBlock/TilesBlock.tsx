@@ -1,0 +1,84 @@
+import { Vector3 } from 'three'
+import { useCheckVisinility } from '../../hooks/useCheckVisibility'
+import { TileGround } from '../tiles/TileGround'
+import { TileWall } from '../tiles/TileWall'
+import { memo, useCallback } from 'react'
+import { calculateShadowColor } from '@engine/utils/shadow'
+
+interface Props {
+    pos: Vector3
+    onClickCallback: (newPos: Vector3) => void
+    lightMap: Vector3[]
+    playerPosRef?: React.MutableRefObject<Vector3>
+    tilesMatrix: Record<string, number[][]>
+}
+
+export const TilesBlock = memo(
+    ({
+        pos: _pos,
+        playerPosRef,
+        tilesMatrix,
+        lightMap,
+        onClickCallback,
+    }: Props) => {
+        const { isVisible } = useCheckVisinility({
+            pos: new Vector3(_pos.x, _pos.z, _pos.y),
+            playerPosRef,
+        })
+
+        if (!isVisible) {
+            return <></>
+        }
+
+        const renderLevelTiles = (matrix: number[][], _z: string) => {
+            const renderTiles = matrix.map((row, rowIndex) => {
+                return row.map((tileType, col) => {
+                    if (tileType === -1) {
+                        return
+                    }
+
+                    const x = rowIndex + _pos.x
+                    const y = col + _pos.z
+                    const z = +_z
+
+                    const pos = new Vector3(x, y, z)
+                    const key =
+                        tileType.toString() +
+                        x.toString() +
+                        y.toString() +
+                        z.toString()
+                    const shadowColor = calculateShadowColor(pos, lightMap)
+
+                    if (tileType < 5) {
+                        return (
+                            <TileGround
+                                key={key}
+                                pos={pos}
+                                type={tileType}
+                                shadowColor={shadowColor}
+                                onClickCallback={onClickCallback}
+                            />
+                        )
+                    }
+
+                    return (
+                        <TileWall
+                            key={key}
+                            pos={pos}
+                            type={tileType}
+                            shadowColor={shadowColor}
+                        />
+                    )
+                })
+            })
+
+            return renderTiles
+        }
+
+        const renderAllLevels = Object.keys(tilesMatrix).map((level) => {
+            return renderLevelTiles(tilesMatrix[level], level)
+        })
+
+        return <>{renderAllLevels}</>
+    }
+)

@@ -2,13 +2,20 @@ import { AppContext } from '@context/AppContext'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { TChunksMap, TLightMapChunk } from './types'
 import { generatePlane } from '@engine/utils/worldGeneration/generatePlane'
-import { CHUNK_SIZE, VIEW_DISTANCE } from '@engine/utils/constants'
+import {
+    CHUNK_SIZE,
+    VIEW_DISTANCE as _VIEW_DISTANCE,
+} from '@engine/utils/constants'
 import { Vector3 } from 'three'
-import { ChunkRenderer } from './components'
 import { randFloat } from 'three/src/math/MathUtils'
 import isEqual from 'lodash/isEqual'
+import { ChunkRenderer } from '@engine/components/ChunkRenderer'
 
-const DEFAULT_TILE_CHUNK = { '0': generatePlane(CHUNK_SIZE) }
+const DEFAULT_TILE_CHUNK = {
+    '0': generatePlane(CHUNK_SIZE),
+    '1': { '0': [5, 5, 5] },
+    '2': { '0': [5, 5, 5] },
+}
 
 const DEFAULT_TILE_CHUNKS_MAP: TChunksMap = {
     '00': DEFAULT_TILE_CHUNK,
@@ -76,36 +83,52 @@ export const ChunksController = () => {
             const bottomChunkId = `${playerWorldPosX}${playerWorldPosZ + 1}`
             const upperChunkId = `${playerWorldPosX}${playerWorldPosZ - 1}`
 
+            const VIEW_DISTANCE = _VIEW_DISTANCE / 2
+
             const isRightChunkNear =
-                +rightChunkId[0] * CHUNK_SIZE - playerPosX <= VIEW_DISTANCE
+                +rightChunkId[0] * CHUNK_SIZE - playerPosX <= VIEW_DISTANCE ||
+                +rightChunkId[0] * CHUNK_SIZE + CHUNK_SIZE / 2 - playerPosX <=
+                    VIEW_DISTANCE ||
+                +rightChunkId[0] * CHUNK_SIZE + CHUNK_SIZE - playerPosX <=
+                    VIEW_DISTANCE
 
             const isLeftChunkNear =
                 +leftChunkId[0] >= 0 &&
                 (playerPosX - +leftChunkId[0] * CHUNK_SIZE <= VIEW_DISTANCE ||
                     playerPosX - (+leftChunkId[0] * CHUNK_SIZE + CHUNK_SIZE) <=
+                        VIEW_DISTANCE ||
+                    playerPosX -
+                        (+leftChunkId[0] * CHUNK_SIZE + CHUNK_SIZE / 2) <=
                         VIEW_DISTANCE)
 
             const isBottomChunkNear =
-                +bottomChunkId[1] * CHUNK_SIZE - playerPosZ <= VIEW_DISTANCE
+                +bottomChunkId[1] * CHUNK_SIZE - playerPosZ <= VIEW_DISTANCE ||
+                +bottomChunkId[1] * CHUNK_SIZE + CHUNK_SIZE / 2 - playerPosZ <=
+                    VIEW_DISTANCE ||
+                +bottomChunkId[1] * CHUNK_SIZE + CHUNK_SIZE - playerPosZ <=
+                    VIEW_DISTANCE
 
             const isUpperChunkNear =
                 +upperChunkId[1] >= 0 &&
                 (playerPosZ - +upperChunkId[1] * CHUNK_SIZE <= VIEW_DISTANCE ||
                     playerPosZ - (+upperChunkId[1] * CHUNK_SIZE + CHUNK_SIZE) <=
+                        VIEW_DISTANCE ||
+                    playerPosZ -
+                        (+upperChunkId[1] * CHUNK_SIZE + CHUNK_SIZE / 2) <=
                         VIEW_DISTANCE)
 
-            if (isRightChunkNear && currentChunks.includes(rightChunkId)) {
-                return
-            }
-            if (isLeftChunkNear && currentChunks.includes(leftChunkId)) {
-                return
-            }
-            if (isBottomChunkNear && currentChunks.includes(bottomChunkId)) {
-                return
-            }
-            if (isUpperChunkNear && currentChunks.includes(upperChunkId)) {
-                return
-            }
+            // if (isRightChunkNear && currentChunks.includes(rightChunkId)) {
+            //     return
+            // }
+            // if (isLeftChunkNear && currentChunks.includes(leftChunkId)) {
+            //     return
+            // }
+            // if (isBottomChunkNear && currentChunks.includes(bottomChunkId)) {
+            //     return
+            // }
+            // if (isUpperChunkNear && currentChunks.includes(upperChunkId)) {
+            //     return
+            // }
 
             if (
                 !!chunks.find((el) => el === rightChunkId) &&

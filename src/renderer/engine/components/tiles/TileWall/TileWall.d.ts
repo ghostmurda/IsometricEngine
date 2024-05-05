@@ -1,10 +1,10 @@
+import { TShadowColor } from '@engine/utils/shadow'
 import { Vector3 } from 'three'
 
 export interface ITileWallProps {
     pos: Vector3
     type: number
-    lightMap?: Vector3[]
-    playerPosRef?: React.MutableRefObject<Vector3>
+    shadowColor: TShadowColor
 }
 
 export interface ITileTypes {

@@ -8,10 +8,8 @@ import {
     TILE_WALL_WIDTH,
     TILE_WALL_Z_HEIGHT,
 } from '@engine/utils/constants'
-import React, { useRef } from 'react'
+import React from 'react'
 import { Vector3 } from 'three'
-import { calculateShadowColor } from '@engine/utils/shadow'
-import { useCheckVisinility } from 'src/renderer/engine/hooks/useCheckVisibility'
 
 const tileTypes: ITileTypes = {
     5: brickWall1,
@@ -19,25 +17,11 @@ const tileTypes: ITileTypes = {
 }
 
 export const TileWall = React.memo(
-    ({ pos, type, lightMap, playerPosRef }: ITileWallProps) => {
+    ({ pos, type, shadowColor }: ITileWallProps) => {
         const texture = useTexture(tileTypes[type])
-        const shadowColor = useRef()
-        const { isVisible } = useCheckVisinility({ pos, playerPosRef })
-
-        if (!isVisible) {
-            return <></>
-        }
-
         const calculatedZ =
             pos.z === 1 ? TILE_WALL_Z_HEIGHT : pos.z - 1 + TILE_WALL_Z_HEIGHT
         const position = new Vector3(pos.x, calculatedZ, pos.y)
-
-        if (!shadowColor.current && lightMap) {
-            //@ts-ignore
-            shadowColor.current = calculateShadowColor(pos, lightMap)
-        }
-
-        console.log('render tile type=' + type)
 
         return (
             <>
@@ -49,10 +33,7 @@ export const TileWall = React.memo(
                     position={position}
                     scale={[TILE_WALL_WIDTH, TILE_WALL_HEIGHT, TILE_WALL_WIDTH]}
                 >
-                    <spriteMaterial
-                        map={texture.clone()}
-                        color={shadowColor.current}
-                    />
+                    <spriteMaterial map={texture.clone()} color={shadowColor} />
                 </sprite>
             </>
         )

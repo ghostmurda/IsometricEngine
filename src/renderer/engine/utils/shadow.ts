@@ -5,7 +5,7 @@ import {
     TILE_WEAK_SHADOW_COLOR,
 } from './constants'
 
-type TShadowColor =
+export type TShadowColor =
     | undefined
     | typeof TILE_WEAK_SHADOW_COLOR
     | typeof TILE_MEDIUM_SHADOW_COLOR

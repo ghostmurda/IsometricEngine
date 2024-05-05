@@ -17,6 +17,10 @@ export const useCheckVisinility = ({ pos, playerPosRef }: Props) => {
                 playerPosRef?.current as Vector3
             )
 
+            if (distance <= VIEW_DISTANCE === isVisible) {
+                return
+            }
+
             const _isVisible = distance <= VIEW_DISTANCE
 
             setIsVisible(_isVisible)
@@ -25,7 +29,7 @@ export const useCheckVisinility = ({ pos, playerPosRef }: Props) => {
 
         const interval = setInterval(() => {
             checkVisibility()
-        }, randFloat(10, 20))
+        }, randFloat(500, 1000))
 
         return () => clearInterval(interval)
     }, [])

@@ -11,6 +11,7 @@ export const TILE_MEDIUM_SHADOW_COLOR = '#7a7878'
 export const TILE_WEAK_SHADOW_COLOR = '#9c9998'
 
 export const CHUNK_SIZE = 64
-export const VIEW_DISTANCE = 28
+export const TILES_BLOCK_SIZE = 16
+export const VIEW_DISTANCE = 32
 
 export const ANIMATION_TRANSITION = 0.25

@@ -1,3 +1,7 @@
 export * from './Camera'
 export * from './Player'
 export * from './StaticLightMap'
+export * from './ChunkRenderer'
+export * from './LightPoint'
+export * from './ShadowSprite'
+export * from './TilesBlock'
