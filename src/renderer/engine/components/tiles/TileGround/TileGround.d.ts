@@ -5,7 +5,7 @@ import { Vector3 } from 'three'
 export interface ITileGroundProps {
     pos: Vector3
     type: number
-    shadowColor: TShadowColor
+    shadowColor?: TShadowColor
     onClickCallback: (newPos: Vector3) => void
 }
 

@@ -11,13 +11,12 @@ import tree1_05 from '@assets/textures/tree_01/_tree_01_40000.png'
 import tree1_06 from '@assets/textures/tree_01/_tree_01_50000.png'
 
 import { randFloat } from 'three/src/math/MathUtils'
-import { useCheckVisinility } from 'src/renderer/engine/hooks/useCheckVisibility'
-import { useShadow } from 'src/renderer/engine/hooks/useShadow'
 
 interface ITreeProps {
     pos: Vector3
     type?: string
     playerPosRef?: React.MutableRefObject<Vector3>
+    shadowColor?: string
 }
 
 const textures: Record<string, string> = {
@@ -32,39 +31,22 @@ const textures: Record<string, string> = {
     },
 }
 
-export const Tree = memo(
-    ({ pos, type = 'tree1', playerPosRef }: ITreeProps) => {
-        const rand = useMemo(() => +randFloat(0, 1).toFixed(1) * 10, [])
-        const texture = useTexture(
-            textures[type]?.[rand] || textures['tree1']['1']
-        )
-        const transformToTilesPos = new Vector3(pos.x, pos.z, pos.y)
-        const { shadow } = useShadow({
-            pos,
-        })
+export const Tree = memo(({ pos, shadowColor, type = 'tree1' }: ITreeProps) => {
+    const rand = useMemo(() => +randFloat(0, 1).toFixed(1) * 10, [])
+    const texture = useTexture(textures[type]?.[rand] || textures['tree1']['1'])
 
-        const { isVisible } = useCheckVisinility({
-            pos: transformToTilesPos,
-            playerPosRef,
-        })
-
-        if (!isVisible) {
-            return <></>
-        }
-
-        return (
-            <>
-                <sprite
-                    position={pos}
-                    scale={[
-                        TILE_WALL_WIDTH * 4,
-                        TILE_WALL_HEIGHT * 6,
-                        TILE_WALL_WIDTH * 4,
-                    ]}
-                >
-                    <spriteMaterial map={texture.clone()} color={shadow} />
-                </sprite>
-            </>
-        )
-    }
-)
+    return (
+        <>
+            <sprite
+                position={pos}
+                scale={[
+                    TILE_WALL_WIDTH * 4,
+                    TILE_WALL_HEIGHT * 6,
+                    TILE_WALL_WIDTH * 4,
+                ]}
+            >
+                <spriteMaterial map={texture.clone()} color={shadowColor} />
+            </sprite>
+        </>
+    )
+})

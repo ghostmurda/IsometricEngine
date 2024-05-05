@@ -1,7 +1,6 @@
 import { memo, useMemo } from 'react'
 import { TTilesChunk } from '../../features/ChunksController/types'
 import { Vector3 } from 'three'
-import { TreesGrid } from '@engine/components/tiles'
 import { CHUNK_SIZE, TILES_BLOCK_SIZE } from '@engine/utils/constants'
 import { TilesBlock } from '../TilesBlock'
 
@@ -138,16 +137,6 @@ export const ChunkRenderer = memo(
             [tileBlocksMap]
         )
 
-        return (
-            <>
-                {renderTileBlocks}
-                <TreesGrid
-                    count={32}
-                    worldPosX={CHUNK_SIZE * worldPosX}
-                    worldPosZ={CHUNK_SIZE * worldPosZ}
-                    playerPosRef={playerPosRef}
-                />
-            </>
-        )
+        return <>{renderTileBlocks}</>
     }
 )

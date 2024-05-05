@@ -2,8 +2,10 @@ import { Vector3 } from 'three'
 import { useCheckVisinility } from '../../hooks/useCheckVisibility'
 import { TileGround } from '../tiles/TileGround'
 import { TileWall } from '../tiles/TileWall'
-import { memo, useCallback } from 'react'
+import { memo } from 'react'
 import { calculateShadowColor } from '@engine/utils/shadow'
+import { TILES_BLOCK_SIZE } from '@engine/utils/constants'
+import { TreesGrid } from '../tiles/TreesGrid'
 
 interface Props {
     pos: Vector3
@@ -79,6 +81,17 @@ export const TilesBlock = memo(
             return renderLevelTiles(tilesMatrix[level], level)
         })
 
-        return <>{renderAllLevels}</>
+        return (
+            <>
+                {renderAllLevels}
+                <TreesGrid
+                    count={2}
+                    size={TILES_BLOCK_SIZE}
+                    worldPosX={_pos.x}
+                    worldPosZ={_pos.z}
+                    lightMap={lightMap}
+                />
+            </>
+        )
     }
 )

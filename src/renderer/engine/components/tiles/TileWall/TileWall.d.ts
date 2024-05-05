@@ -4,7 +4,7 @@ import { Vector3 } from 'three'
 export interface ITileWallProps {
     pos: Vector3
     type: number
-    shadowColor: TShadowColor
+    shadowColor?: TShadowColor
 }
 
 export interface ITileTypes {
