@@ -6,10 +6,16 @@ import { Vector3 } from 'three'
 import { randFloat } from 'three/src/math/MathUtils'
 import isEqual from 'lodash/isEqual'
 import { ChunkRenderer } from '@engine/components/ChunkRenderer'
-import { generatePlaneLandscape } from '@engine/utils/worldGeneration/generatePlaneLandscape'
+import { generatePlane } from '@engine/utils/worldGeneration'
+
+const DEFAULT_TILE_CHUNK = {
+    '0': generatePlane(CHUNK_SIZE),
+    '1': { '0': [5, 5, 5] },
+    '2': { '0': [5, 5, 5] },
+}
 
 const DEFAULT_TILE_CHUNKS_MAP: TChunksMap = {
-    '00': generatePlaneLandscape(0, 0),
+    '00': DEFAULT_TILE_CHUNK,
 }
 
 const createLightPoints = (chunkX: number, chunkZ: number) => {
@@ -195,12 +201,8 @@ export const ChunksController = () => {
             return <></>
         }
 
-        return currentChunks.map((curChunkId) => {
-            const newChunkData = generatePlaneLandscape(
-                +curChunkId[0],
-                +curChunkId[1]
-            )
-            const chunk = tileChunksMap[curChunkId] ?? newChunkData
+        return currentChunks.map((curChunkId, i) => {
+            const chunk = tileChunksMap[curChunkId] ?? DEFAULT_TILE_CHUNK
             const lightMap = lightMapChunks[curChunkId]
 
             if (!lightMap) {
@@ -210,7 +212,7 @@ export const ChunksController = () => {
             if (!tileChunksMap[curChunkId]) {
                 setTileChunksMap((prev) => ({
                     ...prev,
-                    [curChunkId]: newChunkData,
+                    [curChunkId]: DEFAULT_TILE_CHUNK,
                 }))
             }
 

@@ -80,7 +80,7 @@ export const Player = () => {
 
                 const newX = +(currentPosition.x + k * dX).toFixed(10)
                 const newZ = +(currentPosition.z + k * dZ).toFixed(10)
-                const newY = clickPos.y
+                const newY = +currentPosition.y.toFixed(10)
                 const newPosition = new Vector3(newX, newY, newZ)
 
                 setPlayerPos?.(newPosition)

@@ -55,31 +55,6 @@ export const TilesBlock = memo(
                         _z.toString()
                     const shadowColor = calculateShadowColor(pos, lightMap)
 
-                    if (_matrix?.[_z + 1]?.[rowIndex]?.[col] === 7) {
-                        if (
-                            (_z === 0 || _z === 1) &&
-                            (_matrix?.[_z + 1]?.[rowIndex + 1]?.[col] ===
-                                undefined ||
-                                _matrix?.[_z + 1]?.[rowIndex - 1]?.[col] ===
-                                    undefined ||
-                                _matrix?.[_z + 1]?.[rowIndex]?.[col + 1] ===
-                                    undefined ||
-                                _matrix?.[_z + 1]?.[rowIndex]?.[col - 1] ===
-                                    undefined)
-                        ) {
-                            return (
-                                <TileWall
-                                    key={key}
-                                    pos={pos}
-                                    type={7}
-                                    shadowColor={shadowColor}
-                                />
-                            )
-                        }
-
-                        return <></>
-                    }
-
                     if (tileType < 5) {
                         return (
                             <TileGround
